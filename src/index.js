@@ -3,23 +3,33 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import firebase from 'firebase/app'
 import { BrowserRouter } from 'react-router-dom'
+import { createMuiTheme } from '@material-ui/core'
+import { Provider } from 'react-redux'
+import configureStore, { initialState } from './store'
 
-const config = {
-  apiKey: 'AIzaSyA4pjCXig4Y1pe8cLg5V3bTObcb95ECLV8',
-  authDomain: 'got-deadpool-3a31b.firebaseapp.com',
-  databaseURL: 'https://got-deadpool-3a31b.firebaseio.com',
-  projectId: 'got-deadpool-3a31b',
-  storageBucket: 'got-deadpool-3a31b.appspot.com',
-  messagingSenderId: '968181496049'
-}
-
-firebase.initializeApp(config)
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: '#4e4c4f',
+      main: '#262427',
+      dark: '#000000',
+      contrastText: '#fff'
+    },
+    secondary: {
+      light: '#839eb7',
+      main: '#557087',
+      dark: '#29455a',
+      contrastText: '#000'
+    }
+  }
+})
 
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <Provider store={configureStore(initialState)}>
+      <App />
+    </Provider>
   </BrowserRouter>,
   document.getElementById('root'))
 
