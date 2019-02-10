@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import AppBar from '../App'
+import AppBar from '@material-ui/core/AppBar'
 import { Link, Route } from 'react-router-dom'
 import { Login } from '../routes/login'
 import Toolbar from '@material-ui/core/Toolbar'

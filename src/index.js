@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { createMuiTheme } from '@material-ui/core'
 import { Provider } from 'react-redux'
 import configureStore, { initialState } from './store'
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 
 const theme = createMuiTheme({
   palette: {
@@ -28,7 +29,9 @@ const theme = createMuiTheme({
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={configureStore(initialState)}>
-      <App />
+      <MuiThemeProvider theme={theme}>
+        <App />
+      </MuiThemeProvider>
     </Provider>
   </BrowserRouter>,
   document.getElementById('root'))
