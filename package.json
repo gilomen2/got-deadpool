@@ -9,7 +9,6 @@
     "material-ui": "^0.20.2",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
-    "react-firebaseui": "^3.1.2",
     "react-material-ui": "^0.0.1",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",

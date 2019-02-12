@@ -1,32 +1,42 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import AppBar from '@material-ui/core/AppBar'
-import { Link, Route } from 'react-router-dom'
-import { Login } from '../routes/login'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
-import PermIdentity from '@material-ui/icons/PermIdentity'
+import Button from '@material-ui/core/Button'
+import { withStyles } from '@material-ui/core/styles'
+import { signIn, signOut } from '../models/user/actions'
 
-export class TopBar extends Component {
+const styles = {
+  root: {
+    flexGrow: 1
+  },
+  grow: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20
+  }
+}
+
+class TopBar extends Component {
   render () {
+    const { classes, signIn, signOut, user } = this.props
     return (
       <div>
         <AppBar position='static'>
           <Toolbar>
-            <Typography variant='h6' color='inherit'>
+            <Typography variant='h6' color='inherit' className={classes.grow}>
                 Valar Morghulis
             </Typography>
-            <Link to='/login'>
-              <IconButton color={'secondary'} aria-label='Login'>
-                <PermIdentity />
-              </IconButton>
-            </Link>
+            {user && <Button color='inherit' onClick={signOut}>Log Out</Button>}
+            {!user && <Button color='inherit' onClick={signIn}>Login</Button>}
           </Toolbar>
         </AppBar>
-        <div className={'container'}>
-          <Route path='/login' component={Login} />
-        </div>
       </div>
     )
   }
 }
+
+export default withStyles(styles)(connect(null, { signIn, signOut })(TopBar))
