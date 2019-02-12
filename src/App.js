@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchUser, selectUser } from './models/user/actions'
-import { TopBar } from './components/TopBar'
+import TopBar from './components/TopBar'
+import { Route } from 'react-router-dom'
+import Pools from './routes/Pools'
 
 class App extends Component {
   componentWillMount () {
@@ -11,7 +13,10 @@ class App extends Component {
   render () {
     return (
       <div className='App'>
-        <TopBar />
+        <TopBar user={this.props.user} />
+        <div className={'container'}>
+          <Route path='/pools' render={() => <Pools user={this.props.user} />} />
+        </div>
       </div>
     )
   }
