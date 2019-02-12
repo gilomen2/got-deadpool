@@ -5,8 +5,8 @@ import rootReducer from './reducers/rootReducer'
 export const initialState = {
   user: {
     isLoading: false,
-    error: false,
-    user: {}
+    error: null,
+    user: null
   }
 }
 
