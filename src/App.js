@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { fetchUser, selectUser } from './models/user/actions'
 import TopBar from './components/TopBar'
 import { Route } from 'react-router-dom'
-import Pools from './routes/Pools'
+import Pools from './routes/pools/Pools'
+import './App.scss'
 
 class App extends Component {
   componentWillMount () {
@@ -14,7 +15,7 @@ class App extends Component {
     return (
       <div className='App'>
         <TopBar user={this.props.user} />
-        <div className={'container'}>
+        <div className='app-container'>
           <Route path='/pools' render={() => <Pools user={this.props.user} />} />
         </div>
       </div>
