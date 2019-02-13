@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import { getPools, selectPools } from './actions'
 
 const styles = {
   textField: {
@@ -14,11 +15,17 @@ class Pools extends Component {
   state = {
     poolId: null
   }
+  componentWillReceiveProps (nextProps) {
+    if(nextProps.user) {
+      this.props.getPools()
+    }
+  }
 
   render () {
     const {
       user,
-      classes
+      classes,
+      userPools
     } = this.props
     return (
       <div>
@@ -43,9 +50,20 @@ class Pools extends Component {
         {!user && <div>
       Sign in to see pools
         </div>}
+        <div>
+          {userPools && userPools.map(pool => {
+            debugger
+          })}
+        </div>
       </div>
     )
   }
 }
 
-export default withStyles(styles)(connect(null, {})(Pools))
+const mapStateToProps = (state) => {
+  return {
+    userPools: selectPools(state)
+  }
+}
+
+export default withStyles(styles)(connect(mapStateToProps, {getPools})(Pools))
