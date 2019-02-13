@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux'
 import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
 
 const styles = {
   textField: {
@@ -21,7 +22,8 @@ class Pools extends Component {
     } = this.props
     return (
       <div>
-        {user && <div>
+        {user &&
+        <div className={'join-pool'}>
           <TextField
             id='join-pool'
             label='Enter a pool id to join'
@@ -34,6 +36,9 @@ class Pools extends Component {
               })
             }}
           />
+          <Button variant="contained" color="secondary">
+            Secondary
+          </Button>
         </div>}
         {!user && <div>
       Sign in to see pools
