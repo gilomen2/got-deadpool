@@ -3,7 +3,10 @@ import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import { getPools, selectPools } from './actions'
+import { addUserToPool, getPools} from './actions'
+import './Pools.scss'
+import { selectPools } from './reducer'
+import { PoolPanel } from './components/PoolPanel'
 
 const styles = {
   textField: {
@@ -13,20 +16,52 @@ const styles = {
 
 class Pools extends Component {
   state = {
-    poolId: null
+    copiedPools: {}
   }
-  componentWillReceiveProps (nextProps) {
-    if(nextProps.user) {
-      this.props.getPools()
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if(!prevState.user && nextProps.user) {
+      nextProps.getPools()
+      return {user: nextProps.user}
+    } else if(nextProps.userPools){
+      let copiedPools = {}
+      nextProps.userPools.forEach(pool => {
+        copiedPools[pool.id] = prevState.copiedPools[pool.id] || false
+      })
+      return {
+        copiedPools
+      }
+    } else {
+      return null
     }
+  }
+
+  onCopy = (poolId) => {
+    this.setState({
+      copiedPools: {
+        [poolId]: true
+      }
+    }, () => {
+      setTimeout(() => {
+        this.setState({
+          copiedPools: {
+            [poolId]: false
+          }
+        })
+      }, 1500)
+    })
   }
 
   render () {
     const {
       user,
       classes,
-      userPools
+      userPools,
+      addUserToPool
     } = this.props
+    const {
+      copiedPools
+    } = this.state
     return (
       <div>
         {user &&
@@ -43,16 +78,18 @@ class Pools extends Component {
               })
             }}
           />
-          <Button variant="contained" color="secondary">
-            Secondary
+          <Button variant="contained" color="secondary" onClick={() => addUserToPool(this.state.poolId)}>
+            Join
           </Button>
         </div>}
         {!user && <div>
       Sign in to see pools
         </div>}
         <div>
-          {userPools && userPools.map(pool => {
-            debugger
+          {userPools && userPools.map((pool, i) => {
+            return(
+              <PoolPanel pool={pool} index={i} copiedPools={copiedPools} onCopy={this.onCopy}/>
+            )
           })}
         </div>
       </div>
@@ -66,4 +103,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, {getPools})(Pools))
+export default withStyles(styles)(connect(mapStateToProps, {getPools, addUserToPool})(Pools))

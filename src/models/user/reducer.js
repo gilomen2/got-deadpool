@@ -1,7 +1,8 @@
 import {
   AUTH_USER_ERROR,
   AUTH_USER_REQUEST,
-  AUTH_USER_SUCCESS, USER_SIGN_OUT_ERROR,
+  AUTH_USER_SUCCESS,
+  USER_SIGN_OUT_ERROR,
   USER_SIGN_OUT_REQUEST,
   USER_SIGN_OUT_SUCCESS
 } from './consts'
@@ -45,4 +46,8 @@ export default function user (state = {}, action) {
     default:
       return state
   }
+}
+
+export const selectUser = ({ user }) => {
+  return user.user
 }
