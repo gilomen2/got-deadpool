@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
 import { createMuiTheme } from '@material-ui/core'
 import { Provider } from 'react-redux'
 import configureStore, { initialState } from './store'
@@ -30,7 +30,7 @@ ReactDOM.render(
   <BrowserRouter>
     <Provider store={configureStore(initialState)}>
       <MuiThemeProvider theme={theme}>
-        <App />
+        <Route component={App} />
       </MuiThemeProvider>
     </Provider>
   </BrowserRouter>,

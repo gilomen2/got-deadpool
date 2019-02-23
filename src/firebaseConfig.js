@@ -16,3 +16,5 @@ export const authRef = firebase.auth()
 export const GoogleAuthProvider = new firebase.auth.GoogleAuthProvider()
 
 export const dbRef = firebase.firestore()
+
+export const fbstore = firebase.firestore
