@@ -1,4 +1,5 @@
 import { POOL_USERS_SUCCESS, USER_POOLS_ERROR, USER_POOLS_REQUEST, USER_POOLS_SUCCESS } from './consts'
+import { USER_SIGN_OUT_SUCCESS } from '../../models/user/consts'
 
 export default function pools (state = {}, action) {
   switch (action.type) {
@@ -28,6 +29,11 @@ export default function pools (state = {}, action) {
           }
           return pool
         })
+      }
+    case USER_SIGN_OUT_SUCCESS:
+      return {
+        ...state,
+        pools: []
       }
     default:
       return state

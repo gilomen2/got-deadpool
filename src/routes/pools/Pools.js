@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import { addUserToPool, getPools} from './actions'
+import { addUserToPool, createPoolAndAddUser, getPools } from './actions'
 import './Pools.scss'
 import { selectPools } from './reducer'
 import { PoolPanel } from './components/PoolPanel'
@@ -20,10 +20,7 @@ class Pools extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if(!prevState.user && nextProps.user) {
-      nextProps.getPools()
-      return {user: nextProps.user}
-    } else if(nextProps.userPools){
+    if(nextProps.userPools){
       let copiedPools = {}
       nextProps.userPools.forEach(pool => {
         copiedPools[pool.id] = prevState.copiedPools[pool.id] || false
@@ -57,7 +54,8 @@ class Pools extends Component {
       user,
       classes,
       userPools,
-      addUserToPool
+      addUserToPool,
+      createPoolAndAddUser
     } = this.props
     const {
       copiedPools
@@ -65,30 +63,49 @@ class Pools extends Component {
     return (
       <div>
         {user &&
-        <div className={'join-pool'}>
-          <TextField
-            id='join-pool'
-            label='Enter a pool id to join'
-            placeholder='Pool Id'
-            className={classes.textField}
-            margin='normal'
-            onChange={e => {
-              this.setState({
-                poolId: e.target.value
-              })
-            }}
-          />
-          <Button variant="contained" color="secondary" onClick={() => addUserToPool(this.state.poolId)}>
-            Join
-          </Button>
-        </div>}
+          <div className={'pool-admin'}>
+            <div className={'join-pool'}>
+              <TextField
+                id='join-pool'
+                label='Enter a pool id to join'
+                placeholder='Pool Id'
+                className={classes.textField}
+                margin='normal'
+                onChange={e => {
+                  this.setState({
+                    poolId: e.target.value
+                  })
+                }}
+              />
+              <Button variant="contained" color="secondary" onClick={() => addUserToPool(this.state.poolId)}>
+                Join
+              </Button>
+            </div>
+            <div className={'create-pool'}>
+              <TextField
+                id='create-pool'
+                label='Create new pool'
+                placeholder='Pool Name'
+                className={classes.textField}
+                margin='normal'
+                onChange={e => {
+                  this.setState({
+                    poolName: e.target.value
+                  })
+                }}
+              />
+              <Button variant="contained" color="secondary" onClick={() => createPoolAndAddUser(this.state.poolName)}>
+                Create
+              </Button>
+            </div>
+          </div>}
         {!user && <div>
       Sign in to see pools
         </div>}
         <div>
           {userPools && userPools.map((pool, i) => {
             return(
-              <PoolPanel pool={pool} index={i} copiedPools={copiedPools} onCopy={this.onCopy}/>
+              <PoolPanel pool={pool} copiedPools={copiedPools} onCopy={this.onCopy} key={`panel-${i}`} />
             )
           })}
         </div>
@@ -103,4 +120,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, {getPools, addUserToPool})(Pools))
+export default withStyles(styles)(connect(mapStateToProps, {getPools, addUserToPool, createPoolAndAddUser})(Pools))

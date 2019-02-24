@@ -10,6 +10,7 @@ import {
   USER_CREATE_ERROR
 } from './consts'
 import { authRef, GoogleAuthProvider, dbRef } from '../../firebaseConfig'
+import { getPools } from '../../routes/pools/actions'
 
 export const fetchUser = () => dispatch => {
   authRef.onAuthStateChanged(user => {
@@ -19,6 +20,7 @@ export const fetchUser = () => dispatch => {
         payload: user
       })
       dispatch(createUser(user))
+      dispatch(getPools())
     }
   })
 }
@@ -31,7 +33,7 @@ export const createUser = (user) => (dispatch, getState) => {
     dbRef.collection('users').doc(`${user.uid}`).set({
       displayName: user.displayName,
       photoURL: user.photoURL
-    }).then(res => {
+    }, { merge: true }).then(res => {
       dispatch({
         type: USER_CREATE_SUCCESS
       })

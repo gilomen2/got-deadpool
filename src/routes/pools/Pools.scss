@@ -1,4 +1,4 @@
-.join-pool {
+.join-pool, .create-pool {
   display: flex;
   align-items: center;
 }
@@ -15,4 +15,9 @@
 
 .pool-actions {
 
+}
+
+.pool-admin {
+  display: flex;
+  justify-content: space-between;
 }
