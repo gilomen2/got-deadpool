@@ -11,9 +11,9 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { PoolPlayers } from './PoolPlayers'
 
-export const PoolPanel = ({ pool, index, copiedPools, onCopy }) => {
+export const PoolPanel = ({ pool, copiedPools, onCopy }) => {
   return (
-    <ExpansionPanel key={`panel-${index}`}>
+    <ExpansionPanel>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>{pool.name}</Typography>
       </ExpansionPanelSummary>

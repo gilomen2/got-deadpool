@@ -33,6 +33,7 @@ class TopBar extends Component {
             </Typography>
             {user && (
               <div>
+                <Link to={'/bracket'}><Button color='inherit'>Your Bracket</Button></Link>
                 <Link to={'/pools'}><Button color='inherit'>Pools</Button></Link>
                 <Button color='inherit' onClick={signOut}>Log Out</Button>
               </div>

@@ -1,0 +1,25 @@
+.bracket-container {
+
+}
+
+.house {
+  display: flex;
+  flex-direction: row;
+  margin: 65px 0;
+  .house-info {
+    width: 30%;
+    margin-right: 45px;
+  }
+  .house-members {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    > div:not(:first-child) {
+      margin-top: 25px !important;
+    }
+  }
+}
+
+.edit-button {
+  margin-left: 10px !important;
+}
