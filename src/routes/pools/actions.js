@@ -9,7 +9,7 @@ import {
   USER_POOLS_SUCCESS,
   POOL_USERS_REQUEST,
   POOL_USERS_SUCCESS,
-  POOL_USERS_ERROR
+  POOL_USERS_ERROR, CREATE_POOL_REQUEST, CREATE_POOL_SUCCESS, CREATE_POOL_ERROR
 } from './consts'
 
 export const getPools = () => (dispatch, getState) => {
@@ -78,12 +78,38 @@ export const getPoolPlayersData = (poolId, poolUsers) => (dispatch, getState) =>
     dispatch({
       type: POOL_USERS_SUCCESS,
       payload: data,
-      poolId
+      poolId,
+      currentUser: selectUser(getState())
     })
   }).catch(e => {
     dispatch({
       type: POOL_USERS_ERROR,
       error: e
+    })
+  })
+}
+
+export const createPoolAndAddUser = (poolName) => (dispatch, getState) => {
+  dispatch({
+    type: CREATE_POOL_REQUEST
+  })
+  const collection = dbRef.collection('pools')
+  const userId = selectUser(getState()).uid
+
+  collection.add({
+    name: poolName,
+    users: [
+      userId
+    ],
+    game: dbRef.collection('game').doc('test1')
+  }).then(snapshot => {
+    dispatch({
+      type: CREATE_POOL_SUCCESS
+    })
+    dispatch(getPools())
+  }).catch(e => {
+    dispatch({
+      type: CREATE_POOL_ERROR
     })
   })
 }
