@@ -6,6 +6,7 @@ import {
   USER_SIGN_OUT_REQUEST,
   USER_SIGN_OUT_SUCCESS
 } from './consts'
+import { Storage, storageKey } from '../../utils/storage'
 
 export default function user (state = {}, action) {
   switch (action.type) {
@@ -49,5 +50,5 @@ export default function user (state = {}, action) {
 }
 
 export const selectUser = ({ user }) => {
-  return user.user
+  return Storage.getItem(storageKey) || user.user
 }
