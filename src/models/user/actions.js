@@ -11,6 +11,7 @@ import {
 } from './consts'
 import { authRef, GoogleAuthProvider, dbRef } from '../../firebaseConfig'
 import { getPools } from '../../routes/pools/actions'
+import { Storage, storageKey } from '../../utils/storage'
 
 export const fetchUser = () => dispatch => {
   authRef.onAuthStateChanged(user => {
@@ -21,6 +22,7 @@ export const fetchUser = () => dispatch => {
       })
       dispatch(createUser(user))
       dispatch(getPools())
+      Storage.setItem(storageKey, user)
     }
   })
 }
@@ -37,10 +39,10 @@ export const createUser = (user) => (dispatch, getState) => {
       dispatch({
         type: USER_CREATE_SUCCESS
       })
-    }).catch(e => {
-      console.log(e)
+    }).catch(error => {
       dispatch({
-        type: USER_CREATE_ERROR
+        type: USER_CREATE_ERROR,
+        error
       })
     })
   }
@@ -55,7 +57,7 @@ export const signIn = () => dispatch => {
     .catch(error => {
       dispatch({
         type: AUTH_USER_ERROR,
-        error: error
+        error
       })
     })
 }
@@ -67,6 +69,7 @@ export const signOut = () => dispatch => {
   authRef
     .signOut()
     .then(() => {
+      Storage.removeItem(storageKey)
       dispatch({
         type: USER_SIGN_OUT_SUCCESS
       })
@@ -74,7 +77,7 @@ export const signOut = () => dispatch => {
     .catch(error => {
       dispatch({
         type: USER_SIGN_OUT_ERROR,
-        error: error
+        error
       })
     })
 }

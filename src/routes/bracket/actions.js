@@ -15,7 +15,7 @@ export const getEmptyBracket = () => (dispatch, getState) => {
   })
 
   // const collection = dbRef.collection('characters')
-  const collection = dbRef.collection('test-characters')
+  const collection = dbRef.collection('characters')
 
   collection.get().then(snapshot => {
     dispatch({
