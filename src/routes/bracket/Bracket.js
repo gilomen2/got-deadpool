@@ -23,6 +23,8 @@ class Bracket extends Component {
         characterBracket: nextProps.userBracket,
         editable: false
       }
+    } else {
+      return prevState
     }
   }
 
