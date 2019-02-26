@@ -5,7 +5,7 @@ class StorageUtil {
     try {
       let val = window.localStorage.getItem(key)
       if (val) {
-        return JSON.parse(val)
+        return JSON.parse(window.atob(val))
       } else {
         throw new Error()
       }
@@ -14,7 +14,7 @@ class StorageUtil {
   }
 
   setItem (key, val) {
-    return window.localStorage.setItem(key, JSON.stringify(val))
+    return window.localStorage.setItem(key, window.btoa(JSON.stringify(val)))
   }
 
   removeItem (key) {
