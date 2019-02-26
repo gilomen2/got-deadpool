@@ -8,6 +8,8 @@ import Bracket from './routes/bracket/Bracket'
 import { PrivateRoute } from './components/PrivateRoute'
 import { selectUser } from './models/user/reducer'
 import { Storage, storageKey } from './utils/storage'
+import {Route} from 'react-router-dom'
+import Home from './routes/home/Home'
 
 class App extends Component {
   state = {
@@ -18,11 +20,18 @@ class App extends Component {
     super(props)
   }
 
-  componentWillMount () {
-    this.setState({
-      storageUser: Storage.getItem(storageKey)
-    })
+  componentDidMount () {
     this.props.fetchUser()
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if(!nextProps.user && prevState.storageUser) {
+      return {storageUser: undefined}
+    } else if(!nextProps.user) {
+      return {storageUser: Storage.getItem(storageKey)}
+    } else {
+      return prevState
+    }
   }
 
   render () {
@@ -32,8 +41,9 @@ class App extends Component {
       <div className='App'>
         <TopBar user={this.props.user} />
         <div className='app-container'>
-          <PrivateRoute path='/pools' user={storageUser || user} location={location} render={() => <Pools location={location} user={user} />} />
-          <PrivateRoute path='/bracket' user={storageUser || user} location={location} render={() => <Bracket location={location} user={user} />} />
+          <Route exact path='/' component={Home} />
+          <PrivateRoute exact path='/pools' user={storageUser || user} location={location} render={() => <Pools location={location} user={user} />} />
+          <PrivateRoute exact path='/bracket' user={storageUser || user} location={location} render={() => <Bracket location={location} user={user} />} />
         </div>
       </div>
     )
