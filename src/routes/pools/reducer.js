@@ -24,8 +24,13 @@ export default function pools (state = {}, action) {
       return {
         ...state,
         pools: state.pools.map(pool => {
+          let updatedPlayers = {}
           if (pool.id === action.poolId) {
-            pool.players = action.payload
+            updatedPlayers = {
+              ...pool.players,
+              ...action.payload
+            }
+            pool.players = updatedPlayers
           }
           return pool
         })

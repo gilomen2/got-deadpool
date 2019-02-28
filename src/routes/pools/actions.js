@@ -9,8 +9,16 @@ import {
   USER_POOLS_SUCCESS,
   POOL_USERS_REQUEST,
   POOL_USERS_SUCCESS,
-  POOL_USERS_ERROR, CREATE_POOL_REQUEST, CREATE_POOL_SUCCESS, CREATE_POOL_ERROR
+  POOL_USERS_ERROR,
+  CREATE_POOL_REQUEST,
+  CREATE_POOL_SUCCESS,
+  CREATE_POOL_ERROR, RECORD_SCORES_REQUEST, RECORD_SCORES_SUCCESS, RECORD_SCORES_ERROR
 } from './consts'
+import { selectGameLastUpdated, selectGameScoring, selectGameStatus } from '../../models/game/reducer'
+import findKey from 'lodash/findKey'
+import find from 'lodash/find'
+import { selectPools } from './reducer'
+import { getEmptyBracket } from '../bracket/actions'
 
 export const getPools = () => (dispatch, getState) => {
   dispatch({
@@ -24,10 +32,11 @@ export const getPools = () => (dispatch, getState) => {
       dispatch({
         type: USER_POOLS_SUCCESS,
         payload: snapshot.docs.map(doc => {
-          dispatch(getPoolPlayersData(doc.id, doc.data().users))
+          const poolData = doc.data()
+          dispatch(getPoolPlayersData(doc.id, poolData.users))
           return {
             id: doc.id,
-            ...doc.data()
+            ...poolData
           }
         })
       })
@@ -75,6 +84,7 @@ export const getPoolPlayersData = (poolId, poolUsers) => (dispatch, getState) =>
     })
     return Promise.resolve(poolPlayers)
   }).then(data => {
+    debugger
     dispatch({
       type: POOL_USERS_SUCCESS,
       payload: data,
@@ -110,6 +120,88 @@ export const createPoolAndAddUser = (poolName) => (dispatch, getState) => {
   }).catch(e => {
     dispatch({
       type: CREATE_POOL_ERROR
+    })
+  })
+}
+
+export const calcPoolResults = (poolId) => (dispatch, getState) => {
+  const state = getState()
+  const gameLastUpdated = selectGameLastUpdated(state)
+  const gameStarted = selectGameStatus(state)
+  const gameScoring = selectGameScoring(state)
+  const pools = selectPools(state)
+  const pool = find(pools, ['id', poolId])
+  const hasResults = pool.gameLastUpdated && pool.gameLastUpdated === gameLastUpdated
+  debugger
+  if (gameStarted && gameLastUpdated && !hasResults) {
+    return dispatch(getEmptyBracket()).then((characterData) => {
+      let poolPlayers = pool.players
+      let playerScores = {}
+      Object.keys(poolPlayers).forEach(player => {
+        let score = 0
+        Object.keys(poolPlayers[player].bracket).forEach(character => {
+          let characterStatus = find(characterData, function (house) {
+            return find(house, function (person) {
+              return person.name === character
+            })
+          })[0]
+          let characterPrediction = poolPlayers[player].bracket[character]
+          if (characterStatus && characterStatus.lastEpisodeAlive) {
+            const diff = Math.abs(characterStatus.lastEpisodeAlive - characterPrediction)
+            if (characterStatus.lastEpisodeAlive === 0) {
+              if (characterPrediction === 0) {
+                score += gameScoring.survivor.correct
+              } else {
+                score += gameScoring.episodeDeath.survives
+              }
+            } else {
+              if (diff > 3) {
+                score += gameScoring.episodeDeath.offByMore
+              } else if (diff === 3) {
+                score += gameScoring.episodeDeath.offBy3
+              } else if (diff === 2) {
+                score += gameScoring.episodeDeath.offBy2
+              } else if (diff === 1) {
+                score += gameScoring.episodeDeath.offBy1
+              } else if (diff === 0) {
+                score += gameScoring.episodeDeath.correct
+              }
+            }
+          }
+        })
+        playerScores[player] = score
+      })
+      dispatch(recordPoolResults(pool, playerScores))
+    })
+  }
+}
+
+const recordPoolResults = (pool, playerScores) => (dispatch, getState) => {
+  console.log(pool)
+  console.log(playerScores)
+  let updatedPoolUsers = {}
+
+  Object.keys(pool.players).forEach(player => {
+    updatedPoolUsers[player] = pool.players[player]
+    updatedPoolUsers[player].score = playerScores[player]
+  })
+  debugger
+  const poolRef = dbRef.collection('pools').doc(`${pool.id}`)
+  dispatch({
+    type: RECORD_SCORES_REQUEST
+  })
+  poolRef.set({
+    gameLastUpdated: selectGameLastUpdated(getState()),
+    players: updatedPoolUsers
+  }, { merge: true }).then(res => {
+    debugger
+    dispatch({
+      type: RECORD_SCORES_SUCCESS
+    })
+  }).catch(e => {
+    dispatch({
+      type: RECORD_SCORES_ERROR,
+      error: e
     })
   })
 }

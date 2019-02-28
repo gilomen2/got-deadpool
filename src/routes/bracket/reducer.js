@@ -31,7 +31,7 @@ export default function bracket (state = {}, action) {
   }
 }
 
-const organizeCharacters = (characters) => {
+export const organizeCharacters = (characters) => {
   let byHouses = {}
   characters.forEach(character => {
     if (!character.houseAffiliation) {

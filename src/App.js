@@ -10,6 +10,7 @@ import { selectUser } from './models/user/reducer'
 import { Storage, storageKey } from './utils/storage'
 import {Route} from 'react-router-dom'
 import Home from './routes/home/Home'
+import { getGame } from './models/game/actions'
 
 class App extends Component {
   state = {
@@ -21,7 +22,12 @@ class App extends Component {
   }
 
   componentDidMount () {
-    this.props.fetchUser()
+    const {
+      fetchUser,
+      getGame
+    } = this.props
+    fetchUser()
+    getGame()
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -56,4 +62,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default (connect(mapStateToProps, { fetchUser })(App))
+export default (connect(mapStateToProps, { fetchUser, getGame })(App))
