@@ -8,30 +8,45 @@ import {
 } from './consts'
 import { dbRef } from '../../firebaseConfig'
 import { selectUser } from '../../models/user/reducer'
+import { organizeCharacters, selectInitialCharacters } from './reducer'
 
 export const getEmptyBracket = () => (dispatch, getState) => {
-  dispatch({
-    type: EMPTY_BRACKET_REQUEST
-  })
-
-  // const collection = dbRef.collection('characters')
-  const collection = dbRef.collection('characters')
-
-  collection.get().then(snapshot => {
-    dispatch({
-      type: EMPTY_BRACKET_SUCCESS,
-      payload: snapshot.docs.map(doc => {
-        return {
-          name: doc.id,
-          ...doc.data()
-        }
+  return new Promise((resolve, reject) => {
+    const initialCharacters = selectInitialCharacters(getState())
+    if (!initialCharacters) {
+      dispatch({
+        type: EMPTY_BRACKET_REQUEST
       })
-    })
-  }).catch(e => {
-    dispatch({
-      type: EMPTY_BRACKET_ERROR,
-      error: e
-    })
+
+      // const collection = dbRef.collection('characters')
+      const collection = dbRef.collection('test-characters')
+
+      collection.get().then(snapshot => {
+        dispatch({
+          type: EMPTY_BRACKET_SUCCESS,
+          payload: snapshot.docs.map(doc => {
+            return {
+              name: doc.id,
+              ...doc.data()
+            }
+          })
+        })
+        resolve(organizeCharacters(snapshot.docs.map(doc => {
+          return {
+            name: doc.id,
+            ...doc.data()
+          }
+        })))
+      }).catch(e => {
+        dispatch({
+          type: EMPTY_BRACKET_ERROR,
+          error: e
+        })
+        reject(e)
+      })
+    } else {
+      resolve(initialCharacters)
+    }
   })
 }
 

@@ -5,6 +5,7 @@ import { getEmptyBracket, saveUserBracket } from './actions'
 import './Bracket.scss'
 import { House } from './components/House'
 import Button from '@material-ui/core/Button'
+import { selectGameStatus } from '../../models/game/reducer'
 
 class Bracket extends Component {
 
@@ -18,7 +19,11 @@ class Bracket extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if(Object.keys(prevState.characterBracket).length === 0 && nextProps.userBracket) {
+    if(nextProps.gameStarted) {
+      return {
+        editable: false
+      }
+    } else if(Object.keys(prevState.characterBracket).length === 0 && nextProps.userBracket) {
       return {
         characterBracket: nextProps.userBracket,
         editable: false
@@ -47,7 +52,8 @@ class Bracket extends Component {
 
   render () {
     const {
-      initialCharacters
+      initialCharacters,
+      gameStarted
     } = this.props
 
     const {
@@ -60,10 +66,13 @@ class Bracket extends Component {
           {initialCharacters && Object.keys(initialCharacters).map(houseName => {
             return <House key={`house-${houseName}`} editable={editable} characterBracket={characterBracket} handleChange={this.handleChange} house={initialCharacters[houseName]} houseName={houseName}/>
           })}
-          <Button variant="outlined" color="secondary" type={'submit'} disabled={!editable}>
-            Save
-          </Button>
-          {!editable &&
+          { !gameStarted &&
+            <Button variant="outlined" color="secondary" type={'submit'} disabled={!editable}>
+              Save
+            </Button>
+          }
+
+          {(!editable && !gameStarted) &&
           <Button variant="outlined" className={'edit-button'} color="primary" onClick={() => this.setState({ editable: true })}>
             Edit
           </Button>}
@@ -76,7 +85,8 @@ class Bracket extends Component {
 const mapStateToProps = (state) => {
   return {
     initialCharacters: selectInitialCharacters(state),
-    userBracket: selectUserBracket(state)
+    userBracket: selectUserBracket(state),
+    gameStarted: selectGameStatus(state)
   }
 }
 
