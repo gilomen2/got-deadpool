@@ -1,5 +1,6 @@
 import { POOL_USERS_SUCCESS, USER_POOLS_ERROR, USER_POOLS_REQUEST, USER_POOLS_SUCCESS } from './consts'
 import { USER_SIGN_OUT_SUCCESS } from '../../models/user/consts'
+import toPairsIn from 'lodash/toPairsIn'
 
 export default function pools (state = {}, action) {
   switch (action.type) {
@@ -43,6 +44,10 @@ export default function pools (state = {}, action) {
     default:
       return state
   }
+}
+
+const organizePoolPlayers = (poolPlayers) => {
+  return poolPlayers
 }
 
 export const selectPools = ({ pools }) => pools.pools

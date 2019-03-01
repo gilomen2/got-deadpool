@@ -33,7 +33,9 @@ export const getPools = () => (dispatch, getState) => {
         type: USER_POOLS_SUCCESS,
         payload: snapshot.docs.map(doc => {
           const poolData = doc.data()
-          dispatch(getPoolPlayersData(doc.id, poolData.users))
+          if (!poolData.players) {
+            dispatch(getPoolPlayersData(doc.id, poolData.users))
+          }
           return {
             id: doc.id,
             ...poolData
@@ -75,16 +77,13 @@ export const getPoolPlayersData = (poolId, poolUsers) => (dispatch, getState) =>
   dispatch({
     type: POOL_USERS_REQUEST
   })
-  dbRef.runTransaction((transaction) => {
-    let poolPlayers = {}
-    poolUsers.forEach(userId => {
-      return transaction.get(collection.doc(userId)).then(user => {
-        poolPlayers[userId] = user.data()
-      })
-    })
-    return Promise.resolve(poolPlayers)
-  }).then(data => {
-    debugger
+  let promises = []
+  poolUsers.forEach(userId => {
+    promises.push(collection.doc(userId).get().then(user => {
+      return user.data()
+    }))
+  })
+  return Promise.all(promises).then(data => {
     dispatch({
       type: POOL_USERS_SUCCESS,
       payload: data,
@@ -132,7 +131,7 @@ export const calcPoolResults = (poolId) => (dispatch, getState) => {
   const pools = selectPools(state)
   const pool = find(pools, ['id', poolId])
   const hasResults = pool.gameLastUpdated && pool.gameLastUpdated === gameLastUpdated
-  debugger
+
   if (gameStarted && gameLastUpdated && !hasResults) {
     return dispatch(getEmptyBracket()).then((characterData) => {
       let poolPlayers = pool.players
@@ -177,15 +176,12 @@ export const calcPoolResults = (poolId) => (dispatch, getState) => {
 }
 
 const recordPoolResults = (pool, playerScores) => (dispatch, getState) => {
-  console.log(pool)
-  console.log(playerScores)
   let updatedPoolUsers = {}
 
   Object.keys(pool.players).forEach(player => {
     updatedPoolUsers[player] = pool.players[player]
     updatedPoolUsers[player].score = playerScores[player]
   })
-  debugger
   const poolRef = dbRef.collection('pools').doc(`${pool.id}`)
   dispatch({
     type: RECORD_SCORES_REQUEST
@@ -194,7 +190,6 @@ const recordPoolResults = (pool, playerScores) => (dispatch, getState) => {
     gameLastUpdated: selectGameLastUpdated(getState()),
     players: updatedPoolUsers
   }, { merge: true }).then(res => {
-    debugger
     dispatch({
       type: RECORD_SCORES_SUCCESS
     })
