@@ -10,13 +10,13 @@ export const PoolPlayers = ({ poolPlayers }) => {
   return (
     <div className={'pool-players-list'}>
       {Object.keys(poolPlayers).map((player, i) => {
-        return <PoolPlayer photoUrl={poolPlayers[player].photoURL} displayName={poolPlayers[player].displayName} key={`pool-player-${i}`} />
+        return <PoolPlayer photoUrl={poolPlayers[player].photoURL} displayName={poolPlayers[player].displayName} key={`pool-player-${i}`} score={poolPlayers[player].score} />
       })}
     </div>
   )
 }
 
-const PoolPlayer = ({ photoUrl, displayName }) => {
+const PoolPlayer = ({ photoUrl, displayName, score }) => {
   return (
     <List>
       <ListItem alignItems='flex-start'>
@@ -27,7 +27,7 @@ const PoolPlayer = ({ photoUrl, displayName }) => {
           primary={
             <React.Fragment>
               <Typography component='span' color='textPrimary'>
-                {displayName}
+                {displayName} | {score}
               </Typography>
             </React.Fragment>
           }
