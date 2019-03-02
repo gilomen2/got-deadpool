@@ -12,10 +12,12 @@ import {
   POOL_USERS_ERROR,
   CREATE_POOL_REQUEST,
   CREATE_POOL_SUCCESS,
-  CREATE_POOL_ERROR, RECORD_SCORES_REQUEST, RECORD_SCORES_SUCCESS, RECORD_SCORES_ERROR
+  CREATE_POOL_ERROR,
+  RECORD_SCORES_REQUEST,
+  RECORD_SCORES_SUCCESS,
+  RECORD_SCORES_ERROR
 } from './consts'
 import { selectGameLastUpdated, selectGameScoring, selectGameStatus } from '../../models/game/reducer'
-import findKey from 'lodash/findKey'
 import find from 'lodash/find'
 import { selectPools } from './reducer'
 import { getEmptyBracket } from '../bracket/actions'
@@ -26,6 +28,7 @@ export const getPools = () => (dispatch, getState) => {
   })
   const collection = dbRef.collection('pools')
   const userId = selectUser(getState()).uid
+  const gameStarted = selectGameStatus(getState())
 
   if (collection) {
     collection.where('users', 'array-contains', `${userId}`).get().then((snapshot) => {
@@ -33,8 +36,11 @@ export const getPools = () => (dispatch, getState) => {
         type: USER_POOLS_SUCCESS,
         payload: snapshot.docs.map(doc => {
           const poolData = doc.data()
-          if (!poolData.players) {
+          if (!gameStarted || !poolData.players) {
             dispatch(getPoolPlayersData(doc.id, poolData.users))
+          }
+          if (!poolData.players) {
+            poolData.players = []
           }
           return {
             id: doc.id,
@@ -77,12 +83,11 @@ export const getPoolPlayersData = (poolId, poolUsers) => (dispatch, getState) =>
   dispatch({
     type: POOL_USERS_REQUEST
   })
-  let promises = []
-  poolUsers.forEach(userId => {
-    promises.push(collection.doc(userId).get().then(user => {
-      return user.data()
-    }))
-  })
+  let promises = poolUsers.map(userId => collection.doc(userId).get().then(user => {
+    return {
+      [user.id]: user.data()
+    }
+  }))
   return Promise.all(promises).then(data => {
     dispatch({
       type: POOL_USERS_SUCCESS,
@@ -135,16 +140,15 @@ export const calcPoolResults = (poolId) => (dispatch, getState) => {
   if (gameStarted && gameLastUpdated && !hasResults) {
     return dispatch(getEmptyBracket()).then((characterData) => {
       let poolPlayers = pool.players
-      let playerScores = {}
-      Object.keys(poolPlayers).forEach(player => {
+      let scoredPlayers = poolPlayers.map(player => {
         let score = 0
-        Object.keys(poolPlayers[player].bracket).forEach(character => {
+        Object.keys(player.bracket).forEach(character => {
           let characterStatus = find(characterData, function (house) {
             return find(house, function (person) {
               return person.name === character
             })
           })[0]
-          let characterPrediction = poolPlayers[player].bracket[character]
+          let characterPrediction = player.bracket[character]
           if (characterStatus && characterStatus.lastEpisodeAlive) {
             const diff = Math.abs(characterStatus.lastEpisodeAlive - characterPrediction)
             if (characterStatus.lastEpisodeAlive === 0) {
@@ -168,28 +172,21 @@ export const calcPoolResults = (poolId) => (dispatch, getState) => {
             }
           }
         })
-        playerScores[player] = score
+        player.score = score
+        return player
       })
-      dispatch(recordPoolResults(pool, playerScores))
+      dispatch(recordPoolResults(pool, scoredPlayers))
     })
   }
 }
 
-const recordPoolResults = (pool, playerScores) => (dispatch, getState) => {
-  let updatedPoolUsers = {}
-
-  Object.keys(pool.players).forEach(player => {
-    updatedPoolUsers[player] = pool.players[player]
-    updatedPoolUsers[player].score = playerScores[player]
-  })
+const recordPoolResults = (pool, scoredPlayers) => (dispatch, getState) => {
   const poolRef = dbRef.collection('pools').doc(`${pool.id}`)
-  dispatch({
-    type: RECORD_SCORES_REQUEST
-  })
   poolRef.set({
     gameLastUpdated: selectGameLastUpdated(getState()),
-    players: updatedPoolUsers
+    players: scoredPlayers
   }, { merge: true }).then(res => {
+    debugger
     dispatch({
       type: RECORD_SCORES_SUCCESS
     })

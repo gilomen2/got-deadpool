@@ -6,12 +6,14 @@ export default function game (state = {}, action) {
       return {
         ...state,
         isLoading: true,
+        isLoaded: false,
         error: false
       }
     case GAME_SUCCESS:
       return {
         ...state,
         isLoading: false,
+        isLoaded: true,
         isStarted: action.payload.isStarted,
         lastEpisodeUpdated: action.payload.lastEpisodeUpdated,
         scoring: action.payload.scoring
@@ -19,6 +21,7 @@ export default function game (state = {}, action) {
     case GAME_ERROR:
       return {
         ...state,
+        isLoaded: true,
         isLoading: false,
         error: action.error
       }
@@ -30,3 +33,4 @@ export default function game (state = {}, action) {
 export const selectGameStatus = ({ game }) => game.isStarted
 export const selectGameLastUpdated = ({ game }) => game.lastEpisodeUpdated
 export const selectGameScoring = ({ game }) => game.scoring
+export const selectGameLoaded = ({ game }) => game.isLoaded

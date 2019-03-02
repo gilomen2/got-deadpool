@@ -10,7 +10,6 @@ import {
   USER_CREATE_ERROR
 } from './consts'
 import { authRef, GoogleAuthProvider, dbRef } from '../../firebaseConfig'
-import { getPools } from '../../routes/pools/actions'
 import { Storage, storageKey } from '../../utils/storage'
 
 export const fetchUser = () => dispatch => {
@@ -21,7 +20,6 @@ export const fetchUser = () => dispatch => {
         payload: user
       })
       dispatch(createUser(user))
-      dispatch(getPools())
       Storage.setItem(storageKey, user)
     }
   })

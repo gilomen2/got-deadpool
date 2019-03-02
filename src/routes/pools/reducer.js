@@ -1,6 +1,12 @@
-import { POOL_USERS_SUCCESS, USER_POOLS_ERROR, USER_POOLS_REQUEST, USER_POOLS_SUCCESS } from './consts'
+import {
+  POOL_USERS_ERROR,
+  POOL_USERS_REQUEST,
+  POOL_USERS_SUCCESS,
+  USER_POOLS_ERROR,
+  USER_POOLS_REQUEST,
+  USER_POOLS_SUCCESS
+} from './consts'
 import { USER_SIGN_OUT_SUCCESS } from '../../models/user/consts'
-import toPairsIn from 'lodash/toPairsIn'
 
 export default function pools (state = {}, action) {
   switch (action.type) {
@@ -13,7 +19,9 @@ export default function pools (state = {}, action) {
     case USER_POOLS_SUCCESS:
       return {
         ...state,
-        pools: action.payload
+        pools: action.payload,
+        isLoading: false,
+        poolsLoaded: true
       }
     case USER_POOLS_ERROR:
       return {
@@ -21,20 +29,31 @@ export default function pools (state = {}, action) {
         isLoading: false,
         error: action.error
       }
+    case POOL_USERS_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
     case POOL_USERS_SUCCESS:
+      let players = []
+      action.payload.forEach(item => {
+        Object.keys(item).map(player => {
+          item[player].id = player
+          players.push(item[player])
+        })
+      })
       return {
         ...state,
         pools: state.pools.map(pool => {
-          let updatedPlayers = {}
-          if (pool.id === action.poolId) {
-            updatedPlayers = {
-              ...pool.players,
-              ...action.payload
-            }
-            pool.players = updatedPlayers
-          }
+          pool.players = organizePoolPlayers(players)
           return pool
         })
+      }
+    case POOL_USERS_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error
       }
     case USER_SIGN_OUT_SUCCESS:
       return {
@@ -51,3 +70,5 @@ const organizePoolPlayers = (poolPlayers) => {
 }
 
 export const selectPools = ({ pools }) => pools.pools
+export const selectPoolsLoading = ({ pools }) => pools.isLoading
+export const selectPoolsLoaded = ({ pools }) => pools.poolsLoaded

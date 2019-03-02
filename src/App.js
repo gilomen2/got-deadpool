@@ -11,6 +11,10 @@ import { Storage, storageKey } from './utils/storage'
 import {Route} from 'react-router-dom'
 import Home from './routes/home/Home'
 import { getGame } from './models/game/actions'
+import { selectGameLoaded } from './models/game/reducer'
+import { Loader } from './components/Loader/Loader'
+import { selectPoolsLoading } from './routes/pools/reducer'
+import { selectBracketLoading } from './routes/bracket/reducer'
 
 class App extends Component {
   state = {
@@ -41,15 +45,18 @@ class App extends Component {
   }
 
   render () {
-    const { user, location } = this.props
+    const { user, location, gameLoaded, isLoading } = this.props
     const { storageUser } = this.state
     return (
       <div className='App'>
         <TopBar user={this.props.user} />
-        <div className='app-container'>
-          <Route exact path='/' component={Home} />
-          <PrivateRoute exact path='/pools' user={storageUser || user} location={location} render={() => <Pools location={location} user={user} />} />
-          <PrivateRoute exact path='/bracket' user={storageUser || user} location={location} render={() => <Bracket location={location} user={user} />} />
+        <div className='viewport-container'>
+          <Loader isLoading={isLoading}/>
+          <div className='app-container'>
+            <Route exact path='/' component={Home} />
+            <PrivateRoute exact path='/pools' user={storageUser || user} location={location} render={() => <Pools location={location} user={user} gameLoaded={gameLoaded} />} />
+            <PrivateRoute exact path='/bracket' user={storageUser || user} location={location} render={() => <Bracket location={location} user={user} gameLoaded={gameLoaded} />} />
+          </div>
         </div>
       </div>
     )
@@ -58,7 +65,9 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: selectUser(state)
+    user: selectUser(state),
+    gameLoaded: selectGameLoaded(state),
+    isLoading: selectPoolsLoading(state) || selectBracketLoading(state)
   }
 }
 

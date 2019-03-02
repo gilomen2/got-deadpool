@@ -1,4 +1,10 @@
-import { EMPTY_BRACKET_ERROR, EMPTY_BRACKET_REQUEST, EMPTY_BRACKET_SUCCESS } from './consts'
+import {
+  EMPTY_BRACKET_ERROR,
+  EMPTY_BRACKET_REQUEST,
+  EMPTY_BRACKET_SUCCESS, USER_BRACKET_ERROR,
+  USER_BRACKET_REQUEST,
+  USER_BRACKET_SUCCESS
+} from './consts'
 import { POOL_USERS_SUCCESS } from '../pools/consts'
 
 export default function bracket (state = {}, action) {
@@ -18,13 +24,34 @@ export default function bracket (state = {}, action) {
         error: action.error
       }
     case POOL_USERS_SUCCESS:
-      if (action.payload[action.currentUser.uid]) {
+      const currentUserBracket = action.payload.find(u => Object.keys(u)[0] === action.currentUser.uid)[action.currentUser.uid].bracket
+
+      if (currentUserBracket) {
         return {
           ...state,
-          userBracket: action.payload[action.currentUser.uid].bracket
+          userBracket: currentUserBracket
         }
       } else {
         return state
+      }
+    case USER_BRACKET_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        error: false
+      }
+    case USER_BRACKET_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: false,
+        userBracket: action.payload
+      }
+    case USER_BRACKET_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error
       }
     default:
       return state
@@ -44,3 +71,4 @@ export const organizeCharacters = (characters) => {
 
 export const selectInitialCharacters = ({ bracket }) => bracket.initialCharacters
 export const selectUserBracket = ({ bracket }) => bracket.userBracket
+export const selectBracketLoading = ({ bracket }) => bracket.isLoading
