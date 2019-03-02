@@ -1,10 +1,10 @@
 import {
   EMPTY_BRACKET_ERROR,
   EMPTY_BRACKET_REQUEST,
-  EMPTY_BRACKET_SUCCESS,
+  EMPTY_BRACKET_SUCCESS, USER_BRACKET_ERROR, USER_BRACKET_REQUEST,
   USER_BRACKET_SAVE_ERROR,
   USER_BRACKET_SAVE_REQUEST,
-  USER_BRACKET_SAVE_SUCCESS
+  USER_BRACKET_SAVE_SUCCESS, USER_BRACKET_SUCCESS
 } from './consts'
 import { dbRef } from '../../firebaseConfig'
 import { selectUser } from '../../models/user/reducer'
@@ -22,6 +22,7 @@ export const getEmptyBracket = () => (dispatch, getState) => {
       const collection = dbRef.collection('test-characters')
 
       collection.get().then(snapshot => {
+        debugger
         dispatch({
           type: EMPTY_BRACKET_SUCCESS,
           payload: snapshot.docs.map(doc => {
@@ -47,6 +48,27 @@ export const getEmptyBracket = () => (dispatch, getState) => {
     } else {
       resolve(initialCharacters)
     }
+  })
+}
+
+export const getUserBracket = () => (dispatch, getState) => {
+  const user = selectUser(getState())
+  const collection = dbRef.collection('users')
+
+  dispatch({
+    type: USER_BRACKET_REQUEST
+  })
+
+  collection.doc(`${user.uid}`).get().then(snapshot => {
+    dispatch({
+      type: USER_BRACKET_SUCCESS,
+      payload: snapshot.data().bracket
+    })
+  }).catch(e => {
+    dispatch({
+      type: USER_BRACKET_ERROR,
+      error: e
+    })
   })
 }
 

@@ -19,7 +19,7 @@ export const PoolPanel = ({ pool, copiedPools, onCopy, handleExpand }) => {
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <div className={'pool-panel-wrapper'}>
-          {pool.players && <PoolPlayers poolPlayers={pool.players} />}
+          {pool.players && <PoolPlayers poolPlayers={pool.players} poolId={pool.id} />}
           <div className={'pool-actions'}>
             <CopyToClipboard
               text={pool.id}
