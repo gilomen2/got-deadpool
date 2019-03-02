@@ -6,11 +6,11 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 
-export const PoolPlayers = ({ poolPlayers }) => {
+export const PoolPlayers = ({ poolPlayers, poolId }) => {
   return (
     <div className={'pool-players-list'}>
-      {Object.keys(poolPlayers).map((player, i) => {
-        return <PoolPlayer photoUrl={poolPlayers[player].photoURL} displayName={poolPlayers[player].displayName} key={`pool-player-${i}`} score={poolPlayers[player].score} />
+      {poolPlayers.map((player) => {
+        return <PoolPlayer photoUrl={player.photoURL} displayName={player.displayName} key={`pool-player-${player.id}-${poolId}`} score={player.score} />
       })}
     </div>
   )

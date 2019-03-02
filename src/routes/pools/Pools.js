@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import { addUserToPool, calcPoolResults, createPoolAndAddUser, getPools } from './actions'
 import './Pools.scss'
-import { selectPools } from './reducer'
+import { selectPools, selectPoolsLoaded } from './reducer'
 import { PoolPanel } from './components/PoolPanel'
 import { selectGameStatus } from '../../models/game/reducer'
 
@@ -27,10 +27,22 @@ class Pools extends Component {
         copiedPools[pool.id] = prevState.copiedPools[pool.id] || false
       })
       return {
+        ...prevState,
         copiedPools
+      }
+    } else if (nextProps.gameLoaded && !prevState.gameLoaded) {
+      return {
+        ...prevState,
+        gameLoaded: nextProps.gameLoaded
       }
     } else {
       return null
+    }
+  }
+
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    if(this.state.gameLoaded && !prevProps.gameLoaded) {
+      this.props.getPools()
     }
   }
 
@@ -60,14 +72,15 @@ class Pools extends Component {
       classes,
       userPools,
       addUserToPool,
-      createPoolAndAddUser
+      createPoolAndAddUser,
+      gameStarted
     } = this.props
     const {
       copiedPools
     } = this.state
     return (
       <div>
-        {user &&
+        {user && !gameStarted &&
           <div className={'pool-admin'}>
             <div className={'join-pool'}>
               <TextField
@@ -122,7 +135,8 @@ class Pools extends Component {
 const mapStateToProps = (state) => {
   return {
     userPools: selectPools(state),
-    gameStarted: selectGameStatus(state)
+    gameStarted: selectGameStatus(state),
+    poolsLoaded: selectPoolsLoaded(state)
   }
 }
 

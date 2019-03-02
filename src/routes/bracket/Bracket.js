@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { selectInitialCharacters, selectUserBracket } from './reducer'
-import { getEmptyBracket, saveUserBracket } from './actions'
+import { getEmptyBracket, getUserBracket, saveUserBracket } from './actions'
 import './Bracket.scss'
 import { House } from './components/House'
 import Button from '@material-ui/core/Button'
 import { selectGameStatus } from '../../models/game/reducer'
+import isEmpty from 'lodash/isEmpty'
 
 class Bracket extends Component {
 
@@ -16,6 +17,9 @@ class Bracket extends Component {
   constructor (props) {
     super(props)
     props.getEmptyBracket()
+    if(!props.userBracket) {
+      props.getUserBracket()
+    }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -23,7 +27,7 @@ class Bracket extends Component {
       return {
         editable: false
       }
-    } else if(Object.keys(prevState.characterBracket).length === 0 && nextProps.userBracket) {
+    } else if(isEmpty(prevState.characterBracket) && nextProps.userBracket) {
       return {
         characterBracket: nextProps.userBracket,
         editable: false
@@ -66,14 +70,14 @@ class Bracket extends Component {
           {initialCharacters && Object.keys(initialCharacters).map(houseName => {
             return <House key={`house-${houseName}`} editable={editable} characterBracket={characterBracket} handleChange={this.handleChange} house={initialCharacters[houseName]} houseName={houseName}/>
           })}
-          { !gameStarted &&
+          { !gameStarted && editable &&
             <Button variant="outlined" color="secondary" type={'submit'} disabled={!editable}>
               Save
             </Button>
           }
 
           {(!editable && !gameStarted) &&
-          <Button variant="outlined" className={'edit-button'} color="primary" onClick={() => this.setState({ editable: true })}>
+          <Button variant="outlined" color="primary" onClick={() => this.setState({ editable: true })}>
             Edit
           </Button>}
         </form>
@@ -90,4 +94,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { getEmptyBracket, saveUserBracket })(Bracket)
+export default connect(mapStateToProps, { getEmptyBracket, saveUserBracket, getUserBracket })(Bracket)
