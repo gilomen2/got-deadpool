@@ -15,14 +15,11 @@ import { selectGameLoaded } from './models/game/reducer'
 import { Loader } from './components/Loader/Loader'
 import { selectPoolsLoading } from './routes/pools/reducer'
 import { selectBracketLoading } from './routes/bracket/reducer'
+import { Errors } from './components/Error'
 
 class App extends Component {
   state = {
     storageUser: undefined
-  }
-
-  constructor (props) {
-    super(props)
   }
 
   componentDidMount () {
@@ -49,9 +46,10 @@ class App extends Component {
     const { storageUser } = this.state
     return (
       <div className='App'>
-        <TopBar user={this.props.user} />
+        <TopBar user={user} />
         <div className='viewport-container'>
-          <Loader isLoading={isLoading}/>
+          <Loader isLoading={isLoading} />
+          <Errors showModal={true} errorMessage={'test'} handleClose={() => console.log('CLOSED')} />
           <div className='app-container'>
             <Route exact path='/' component={Home} />
             <PrivateRoute exact path='/pools' user={storageUser || user} location={location} render={() => <Pools location={location} user={user} gameLoaded={gameLoaded} />} />
