@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import { addUserToPool, calcPoolResults, createPoolAndAddUser, getPools } from './actions'
 import './Pools.scss'
-import { selectPools, selectPoolsLoaded } from './reducer'
+import { selectPools } from './reducer'
 import { PoolPanel } from './components/PoolPanel'
 import { selectGameStatus } from '../../models/game/reducer'
 
@@ -135,8 +135,7 @@ class Pools extends Component {
 const mapStateToProps = (state) => {
   return {
     userPools: selectPools(state),
-    gameStarted: selectGameStatus(state),
-    poolsLoaded: selectPoolsLoaded(state)
+    gameStarted: selectGameStatus(state)
   }
 }
 
