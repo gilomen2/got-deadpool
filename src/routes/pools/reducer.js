@@ -1,4 +1,6 @@
 import {
+  ADD_USER_TO_POOL_ERROR,
+  ADD_USER_TO_POOL_REQUEST, ADD_USER_TO_POOL_SUCCESS,
   POOL_USERS_ERROR,
   POOL_USERS_REQUEST,
   POOL_USERS_SUCCESS, RECORD_SCORES_ERROR, RECORD_SCORES_REQUEST, RECORD_SCORES_SUCCESS,
@@ -98,6 +100,24 @@ export default function pools (state = {}, action) {
         ...state,
         isLoading: false,
         error: action.error
+      }
+    case ADD_USER_TO_POOL_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        error: false
+      }
+    case ADD_USER_TO_POOL_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: false
+      }
+    case ADD_USER_TO_POOL_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: `The pool is either full or doesn't exist. Confirm the pool id with the person who gave it to you, or ask if they pool already has 50 users.`
       }
     default:
       return state

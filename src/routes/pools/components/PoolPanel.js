@@ -9,9 +9,9 @@ import FileCopy from '@material-ui/icons/FileCopy'
 import Check from '@material-ui/icons/Check'
 import Tooltip from '@material-ui/core/Tooltip'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { PoolPlayers } from './PoolPlayers'
+import { PoolPlayers, PoolPlayersPreGame } from './PoolPlayers'
 
-export const PoolPanel = ({ pool, copiedPools, onCopy, handleExpand }) => {
+export const PoolPanel = ({ pool, copiedPools, onCopy, handleExpand, gameStarted }) => {
   return (
     <ExpansionPanel onChange={handleExpand(pool)}>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
@@ -19,7 +19,11 @@ export const PoolPanel = ({ pool, copiedPools, onCopy, handleExpand }) => {
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <div className={'pool-panel-wrapper'}>
-          {pool.players && <PoolPlayers poolPlayers={pool.players} poolId={pool.id} />}
+          {
+            pool.players && (
+              gameStarted ? <PoolPlayers poolPlayers={pool.players} poolId={pool.id} /> : <PoolPlayersPreGame poolPlayers={pool.players} poolId={pool.id} />
+            )
+          }
           <div className={'pool-actions'}>
             <CopyToClipboard
               text={pool.id}
