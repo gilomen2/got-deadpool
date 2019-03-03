@@ -22,7 +22,6 @@ export const getEmptyBracket = () => (dispatch, getState) => {
       const collection = dbRef.collection('test-characters')
 
       collection.get().then(snapshot => {
-        debugger
         dispatch({
           type: EMPTY_BRACKET_SUCCESS,
           payload: snapshot.docs.map(doc => {
