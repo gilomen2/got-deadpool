@@ -21,6 +21,7 @@ import { selectGameLastUpdated, selectGameScoring, selectGameStatus } from '../.
 import find from 'lodash/find'
 import { selectPools } from './reducer'
 import { getEmptyBracket } from '../bracket/actions'
+import { rankPlayers } from '../../utils/rankPlayers'
 
 export const getPools = () => (dispatch, getState) => {
   dispatch({
@@ -38,9 +39,6 @@ export const getPools = () => (dispatch, getState) => {
           const poolData = doc.data()
           if (!gameStarted || !poolData.players) {
             dispatch(getPoolPlayersData(doc.id, poolData.users))
-          }
-          if (!poolData.players) {
-            poolData.players = []
           }
           return {
             id: doc.id,
@@ -138,7 +136,7 @@ export const calcPoolResults = (poolId) => (dispatch, getState) => {
   const hasResults = pool.gameLastUpdated && pool.gameLastUpdated === gameLastUpdated
 
   if (gameStarted && gameLastUpdated && !hasResults) {
-    return dispatch(getEmptyBracket()).then((characterData) => {
+    dispatch(getEmptyBracket()).then((characterData) => {
       let poolPlayers = pool.players
       let scoredPlayers = poolPlayers.map(player => {
         let score = 0
@@ -175,20 +173,25 @@ export const calcPoolResults = (poolId) => (dispatch, getState) => {
         player.score = score
         return player
       })
-      dispatch(recordPoolResults(pool, scoredPlayers))
+      dispatch(recordPoolResults(poolId, scoredPlayers))
     })
   }
 }
 
-const recordPoolResults = (pool, scoredPlayers) => (dispatch, getState) => {
-  const poolRef = dbRef.collection('pools').doc(`${pool.id}`)
+const recordPoolResults = (poolId, scoredPlayers) => (dispatch, getState) => {
+  const rankedPlayers = rankPlayers(scoredPlayers)
+  dispatch({
+    type: RECORD_SCORES_REQUEST
+  })
+  const poolRef = dbRef.collection('pools').doc(`${poolId}`)
   poolRef.set({
     gameLastUpdated: selectGameLastUpdated(getState()),
-    players: scoredPlayers
+    players: rankPlayers(scoredPlayers)
   }, { merge: true }).then(res => {
-    debugger
     dispatch({
-      type: RECORD_SCORES_SUCCESS
+      type: RECORD_SCORES_SUCCESS,
+      rankedPlayers,
+      poolId
     })
   }).catch(e => {
     dispatch({
