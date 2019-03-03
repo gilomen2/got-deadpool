@@ -71,7 +71,8 @@ export const addUserToPool = (poolId) => (dispatch, getState) => {
     dispatch(getPools())
   }).catch(e => {
     dispatch({
-      type: ADD_USER_TO_POOL_ERROR
+      type: ADD_USER_TO_POOL_ERROR,
+      error: e
     })
   })
 }

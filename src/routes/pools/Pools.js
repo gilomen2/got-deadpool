@@ -123,7 +123,7 @@ class Pools extends Component {
         <div>
           {userPools && userPools.map((pool, i) => {
             return(
-              <PoolPanel pool={pool} copiedPools={copiedPools} onCopy={this.onCopy} key={`panel-${i}`} handleExpand={this.handleExpand} />
+              <PoolPanel pool={pool} copiedPools={copiedPools} onCopy={this.onCopy} key={`panel-${i}`} handleExpand={this.handleExpand} gameStarted={gameStarted} />
             )
           })}
         </div>

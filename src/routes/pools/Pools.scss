@@ -10,14 +10,25 @@
 }
 
 .pool-players-list {
-  flex: 1;
+  flex-basis: 80%;
 }
 
 .pool-actions {
-
+  flex: 1;
+  justify-content: flex-end;
+  display: flex;
 }
 
 .pool-admin {
   display: flex;
   justify-content: space-between;
+}
+
+.avatar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  span {
+    margin-top: 10px;
+  }
 }
