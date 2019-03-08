@@ -11,6 +11,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { signIn, signOut } from '../models/user/actions'
 import { Link } from 'react-router-dom'
 import Dragonglass from '../images/dragonglass.jpg'
+import { CountdownTimer } from './Countdown/Countdown'
 
 const drawerWidth = 240
 
@@ -36,6 +37,10 @@ const styles = theme => ({
   },
   toolbar: {
     minHeight: '64px'
+  },
+  toolbarContents: {
+    display: 'flex',
+    justifyContent: 'space-between'
   },
   logoFont: {
     fontFamily: 'game_of_thronesregular, serif'
@@ -63,10 +68,13 @@ class TopBar extends Component {
     return (
       [
         <AppBar key={'app-bar'} position='fixed' className={classes.appBar}>
-          <Toolbar>
+          <Toolbar classes={{
+            root: classes.toolbarContents
+          }}>
             <Typography variant='h6' color='inherit' className={classes.logoFont}>
                 Valar Morghulis
             </Typography>
+            <CountdownTimer />
           </Toolbar>
         </AppBar>,
         <Drawer key={'drawer'}
