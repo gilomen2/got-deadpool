@@ -6,6 +6,10 @@
   display: flex;
   flex-direction: row;
   margin: 65px 0;
+  .house-name {
+    font-family: 'game_of_thronesregular', serif;
+    color: #29455a;
+  }
   .house-info {
     width: 30%;
     margin-right: 45px;

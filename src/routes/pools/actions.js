@@ -49,7 +49,7 @@ export const getPools = () => (dispatch, getState) => {
     }).catch(e => {
       dispatch({
         type: USER_POOLS_ERROR,
-        error: e
+        error: e.message
       })
     })
   }
@@ -72,7 +72,7 @@ export const addUserToPool = (poolId) => (dispatch, getState) => {
   }).catch(e => {
     dispatch({
       type: ADD_USER_TO_POOL_ERROR,
-      error: e
+      error: e.message
     })
   })
 }
@@ -97,7 +97,7 @@ export const getPoolPlayersData = (poolId, poolUsers) => (dispatch, getState) =>
   }).catch(e => {
     dispatch({
       type: POOL_USERS_ERROR,
-      error: e
+      error: e.message
     })
   })
 }
@@ -122,7 +122,8 @@ export const createPoolAndAddUser = (poolName) => (dispatch, getState) => {
     dispatch(getPools())
   }).catch(e => {
     dispatch({
-      type: CREATE_POOL_ERROR
+      type: CREATE_POOL_ERROR,
+      error: e.message
     })
   })
 }
@@ -197,7 +198,7 @@ const recordPoolResults = (poolId, scoredPlayers) => (dispatch, getState) => {
   }).catch(e => {
     dispatch({
       type: RECORD_SCORES_ERROR,
-      error: e
+      error: e.message
     })
   })
 }

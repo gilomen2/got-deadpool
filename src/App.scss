@@ -1,6 +1,36 @@
+@font-face {
+  font-family: 'game_of_thronesregular';
+  src: url('./fonts/game_of_thrones-webfont.woff2') format('woff2'),
+  url('./fonts/game_of_thrones-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.toolbar {
+ min-height: 64px;
+}
+
 .app-container {
-  max-width: 900px;
-  margin: 40px auto;
+  padding: 40px;
+  flex-grow: 1;
+  background: url('images/mountains.jpg') center;
+  background-size: cover;
+}
+
+.content-container {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.viewport-container {
+  flex-grow: 1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.App {
+  display: flex;
 }
 
 header {

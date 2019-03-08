@@ -5,7 +5,7 @@ export const House = ({ houseName, house, handleChange, characterBracket, editab
   return (
     <div className={'house'}>
       <div className={'house-info'}>
-        <h3>{houseName}</h3>
+        <h3 className={'house-name'}>{houseName}</h3>
       </div>
       <div className={'house-members'}>
         {house.length && house.map(character => {

@@ -11,8 +11,9 @@ import {
 import { USER_SIGN_OUT_SUCCESS } from '../../models/user/consts'
 import isEmpty from 'lodash/isEmpty'
 import sortBy from 'lodash/sortBy'
+import { CLEAR_ERRORS } from '../../components/Error'
 
-export default function pools (state = {}, action) {
+export default function pools (state = { error: false }, action) {
   switch (action.type) {
     case USER_POOLS_REQUEST:
       return {
@@ -67,6 +68,7 @@ export default function pools (state = {}, action) {
         }
       }
     case POOL_USERS_ERROR:
+      debugger
       return {
         ...state,
         isLoading: false,
@@ -119,6 +121,11 @@ export default function pools (state = {}, action) {
         isLoading: false,
         error: `The pool is either full or doesn't exist. Confirm the pool id with the person who gave it to you, or ask if they pool already has 50 users.`
       }
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: false
+      }
     default:
       return state
   }
@@ -131,3 +138,4 @@ const organizePoolPlayers = (poolPlayers) => {
 
 export const selectPools = ({ pools }) => pools.pools
 export const selectPoolsLoading = ({ pools }) => pools.isLoading
+export const selectPoolsError = ({ pools }) => pools.error
