@@ -10,6 +10,13 @@ import configureStore, { initialState } from './store'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 
 const theme = createMuiTheme({
+  typography: {
+    fontFamily: [
+      'Alegreya Sans',
+      'sans-serif'
+    ].join(','),
+    fontSize: 16
+  },
   palette: {
     primary: {
       light: '#4e4c4f',

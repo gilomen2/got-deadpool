@@ -6,18 +6,22 @@ import Button from '@material-ui/core/Button'
 import { addUserToPool, calcPoolResults, createPoolAndAddUser, getPools } from './actions'
 import './Pools.scss'
 import { selectPools } from './reducer'
-import { PoolPanel } from './components/PoolPanel'
+import PoolPanel from './components/PoolPanel'
 import { selectGameStatus } from '../../models/game/reducer'
 
-const styles = {
+const styles = theme => ({
   textField: {
     width: 200
+  },
+  buttonColor: {
+    color: theme.palette.primary.contrastText
   }
-}
+})
 
 class Pools extends Component {
   state = {
-    copiedPools: {}
+    copiedPools: {},
+    gameLoaded: false
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -37,6 +41,12 @@ class Pools extends Component {
       }
     } else {
       return null
+    }
+  }
+
+  componentDidMount() {
+    if(this.state.gameLoaded) {
+      this.props.getPools()
     }
   }
 
@@ -95,7 +105,7 @@ class Pools extends Component {
                   })
                 }}
               />
-              <Button variant="contained" color="secondary" onClick={() => addUserToPool(this.state.poolId)}>
+              <Button variant="contained" color="secondary" classes={{label: classes.buttonColor}} onClick={() => addUserToPool(this.state.poolId)}>
                 Join
               </Button>
             </div>
@@ -112,7 +122,7 @@ class Pools extends Component {
                   })
                 }}
               />
-              <Button variant="contained" color="secondary" onClick={() => createPoolAndAddUser(this.state.poolName)}>
+              <Button variant="contained" color="secondary" classes={{label: classes.buttonColor}} onClick={() => createPoolAndAddUser(this.state.poolName)}>
                 Create
               </Button>
             </div>

@@ -6,8 +6,9 @@ import {
   USER_BRACKET_SUCCESS
 } from './consts'
 import { POOL_USERS_SUCCESS } from '../pools/consts'
+import { CLEAR_ERRORS } from '../../components/Error'
 
-export default function bracket (state = {}, action) {
+export default function bracket (state = { error: false }, action) {
   switch (action.type) {
     case EMPTY_BRACKET_REQUEST:
       return {
@@ -53,6 +54,11 @@ export default function bracket (state = {}, action) {
         isLoading: false,
         error: action.error
       }
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: false
+      }
     default:
       return state
   }
@@ -72,3 +78,4 @@ export const organizeCharacters = (characters) => {
 export const selectInitialCharacters = ({ bracket }) => bracket.initialCharacters
 export const selectUserBracket = ({ bracket }) => bracket.userBracket
 export const selectBracketLoading = ({ bracket }) => bracket.isLoading
+export const selectBracketError = ({ bracket }) => bracket.error

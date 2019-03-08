@@ -10,12 +10,19 @@ import Check from '@material-ui/icons/Check'
 import Tooltip from '@material-ui/core/Tooltip'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { PoolPlayers, PoolPlayersPreGame } from './PoolPlayers'
+import { withStyles } from '@material-ui/core/styles'
 
-export const PoolPanel = ({ pool, copiedPools, onCopy, handleExpand, gameStarted }) => {
+const styles = {
+  iconColor: {
+    color: '#fff'
+  }
+}
+
+const PoolPanel = ({ pool, copiedPools, onCopy, handleExpand, gameStarted, classes }) => {
   return (
     <ExpansionPanel onChange={handleExpand(pool)}>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
-        <Typography>{pool.name}</Typography>
+        <Typography variant={'h5'}>{pool.name}</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <div className={'pool-panel-wrapper'}>
@@ -29,7 +36,7 @@ export const PoolPanel = ({ pool, copiedPools, onCopy, handleExpand, gameStarted
               text={pool.id}
               onCopy={() => onCopy(pool.id)}>
               <Tooltip title='Copy Pool Id to share with others'>
-                <Fab color='secondary' aria-label='Edit'>
+                <Fab color='secondary' className={classes.iconColor} aria-label='Edit'>
                   {copiedPools[pool.id]
                     ? <Check />
                     : <FileCopy />
@@ -43,3 +50,5 @@ export const PoolPanel = ({ pool, copiedPools, onCopy, handleExpand, gameStarted
     </ExpansionPanel>
   )
 }
+
+export default withStyles(styles)(PoolPanel)
