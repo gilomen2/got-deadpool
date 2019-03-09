@@ -43,6 +43,24 @@ class Steps extends Component {
         pools: true
       }
     }
+    if(!nextProps.user) {
+      newState.completed = {
+        ...newState.completed,
+        user: false
+      }
+    }
+    if(!nextProps.userBracket) {
+      newState.completed = {
+        ...newState.completed,
+        userBracket: false
+      }
+    }
+    if(nextProps.pools && !nextProps.pools.length) {
+      newState.completed = {
+        ...newState.completed,
+        pools: false
+      }
+    }
     return newState
   }
 

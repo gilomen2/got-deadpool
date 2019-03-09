@@ -76,7 +76,7 @@ class App extends Component {
           <div className='toolbar' />
           <div className='app-container'>
             <div className='content-container'>
-            <Route exact path='/' component={Home} />
+            <Route exact path='/' render={()=> <Home user={user} gameLoaded={gameLoaded} />} />
               <PrivateRoute exact path='/pools' user={storageUser || user} location={location} render={() => <Pools location={location} user={user} gameLoaded={gameLoaded} />} />
               <PrivateRoute exact path='/bracket' user={storageUser || user} location={location} render={() => <Bracket location={location} user={user} gameLoaded={gameLoaded} />} />
             </div>

@@ -47,7 +47,7 @@ export default function pools (state = { error: false }, action) {
         action.payload.forEach(item => {
           Object.keys(item).map(player => {
             item[player].id = player
-            players.push(item[player])
+            return players.push(item[player])
           })
         })
         return {
@@ -68,7 +68,6 @@ export default function pools (state = { error: false }, action) {
         }
       }
     case POOL_USERS_ERROR:
-      debugger
       return {
         ...state,
         isLoading: false,

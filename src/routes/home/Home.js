@@ -1,28 +1,38 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Steps from './Steps'
+import { Link } from 'react-router-dom'
+import { selectGameStatus } from '../../models/game/reducer'
 
 class Home extends Component {
   render () {
     const {
-      history
+      history,
+      user,
+      gameLoaded,
+      gameStatus
     } = this.props
 
     return (
       <div>
-        <Steps history={history} />
-        <h2>How It Works</h2>
-        <h4>Login</h4>
-        <p>No sign up required. Login with a Google account.</p>
-        <h4>Create or Join a Pool</h4>
-        <p>If someone gave you a pool id, enter it on the "Pools" page to join. You can join an unlimited number of pools, so join one at work, with your friends, etc.</p>
-        <p>You can also create new pools, then copy the id and share it around. Anyone with the pool id can join, so only give yours to those you want to play with. Pools are limited to 50 users.</p>
-        <p>You can join pools up until the game starts.</p>
-        <p>There are no pool admins. You can't boot someone from a pool or leave a pool once you've joined it. This app was a rush job. It's just asking too much.</p>
-        <h4>Fill out Your Bracket</h4>
-        <p>It's 1 bracket per user, no matter how many pools you are in. You set your bracket and it will be judged against others in each pool you are in.</p>
-        <p>You can edit your bracket up until the game starts. Once the game starts, no changes can be made.</p>
-        <p>You have to select an episode in which each character will die, or declare them a "survivor" if you think they will end the series alive.</p>
-        <p>Brackets are loosely organized by house affiliation at the end of season 7. I said LOOSELY.</p>
+        {gameLoaded && !gameStatus &&
+          <div>
+            <Steps history={history} />
+            <h2>How It Works</h2>
+            <h4>Sign Up</h4>
+            <p>Login with a Google account to create an account.</p>
+            <h4>Create or Join a Pool</h4>
+            <p>If someone gave you a pool id, enter it on the {user ? <Link to={'/pools'}>Pools</Link> : 'Pools'} page to join. You can join an unlimited number of pools, so join one at work, with your friends, etc.</p>
+            <p>You can also create new pools, then copy the id and share it around. Anyone with the pool id can join, so only give yours to those you want to play with. Pools are limited to 50 users.</p>
+            <p>You can join pools up until the game starts.</p>
+            <p>There are no pool admins. You can't boot someone from a pool or leave a pool once you've joined it. This app was a rush job. It's just asking too much.</p>
+            <h4>Fill out Your Bracket</h4>
+            <p>It's 1 bracket per user, no matter how many pools you are in. You set your bracket and it will be judged against others in each pool you are in.</p>
+            <p>You can edit {user ? <Link to={'/bracket'}>your bracket</Link> : 'your bracket'} up until the game starts. Once the game starts, no changes can be made.</p>
+            <p>You have to select an episode in which each character will die, or declare them a "survivor" if you think they will end the series alive.</p>
+            <p>Brackets are loosely organized by house affiliation at the end of season 7. I said LOOSELY.</p>
+          </div>
+        }
         <h2>These are the Rules, don't @ me</h2>
         <ul>
           <li>"Alive" means the character is walking around (or whatever it is Bran is doing) at the end of the episode OR is unconfirmed dead from injuries sustained at the end of the episode.</li>
@@ -67,4 +77,10 @@ class Home extends Component {
   }
 }
 
-export default Home
+const mapStateToProps = state => {
+  return {
+    game: selectGameStatus(state)
+  }
+}
+
+export default connect(mapStateToProps)(Home)
