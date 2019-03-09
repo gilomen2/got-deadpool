@@ -6,6 +6,11 @@ import firebase from 'firebase'
 
 class CreateUser extends Component {
 
+  state = {
+    emailAddress: 'thronesdeadpool1@mailinator.com',
+    password: 'password'
+  }
+
   createUser() {
     firebase.auth().createUserWithEmailAndPassword(this.state.emailAddress, this.state.password)
       .then(user => {
@@ -19,7 +24,14 @@ class CreateUser extends Component {
 
   logIn() {
     firebase.auth().signInWithEmailAndPassword(this.state.emailAddress, this.state.password)
-      .then(user => {
+      .then(response => {
+        debugger;
+        const {user} = response;
+        if (!user.displayName){
+          user.updateProfile({displayName: this.state.emailAddress}).then(val => {
+            console.log(val);
+          });
+        }
         console.log(user);
       })
       .catch(error => {
@@ -42,6 +54,7 @@ class CreateUser extends Component {
               emailAddress: e.target.value
             })
           }}
+          value={this.state.emailAddress}
         />
         <TextField
           id='password'
@@ -54,6 +67,7 @@ class CreateUser extends Component {
               password: e.target.value
             })
           }}
+          value={this.state.password}
         />
         <Button variant="contained" color="secondary" /*classes={{label: classes.buttonColor}}*/ onClick={() => this.createUser()}>
           Create
