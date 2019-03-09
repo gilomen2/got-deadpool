@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
+import Steps from './Steps'
 
 class Home extends Component {
   render () {
+    const {
+      history
+    } = this.props
+
     return (
       <div>
+        <Steps history={history} />
         <h2>How It Works</h2>
         <h4>Login</h4>
         <p>No sign up required. Login with a Google account.</p>
