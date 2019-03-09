@@ -7,7 +7,7 @@ import firebase from 'firebase'
 class CreateUser extends Component {
 
   state = {
-    emailAddress: 'thronesdeadpool1@mailinator.com',
+    emailAddress: 'tdp@mailinator.com',
     password: 'password'
   }
 
@@ -25,7 +25,6 @@ class CreateUser extends Component {
   logIn() {
     firebase.auth().signInWithEmailAndPassword(this.state.emailAddress, this.state.password)
       .then(response => {
-        debugger;
         const {user} = response;
         if (!user.displayName){
           user.updateProfile({displayName: this.state.emailAddress}).then(val => {
