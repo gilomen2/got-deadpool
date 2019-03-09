@@ -8,10 +8,11 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import { withStyles } from '@material-ui/core/styles'
-import { signIn, signOut } from '../models/user/actions'
+import { signIn, signOut } from '../../models/user/actions'
 import { Link } from 'react-router-dom'
-import Dragonglass from '../images/dragonglass.jpg'
-import { CountdownTimer } from './Countdown/Countdown'
+import Dragonglass from '../../images/dragonglass.jpg'
+import { CountdownTimer } from '../Countdown/Countdown'
+import './TopBar.scss'
 
 const drawerWidth = 240
 
@@ -34,7 +35,9 @@ const styles = theme => ({
     overflow: 'hidden'
   },
   noBorder: {
-    border: 'none'
+    border: 'none',
+    display: 'flex',
+    flexDirection: 'column'
   },
   toolbar: {
     minHeight: '64px'
@@ -51,6 +54,9 @@ const styles = theme => ({
     textDecoration: 'none',
     fontSize: '16px',
     fontFamily: 'game_of_thronesregular, serif'
+  },
+  navList: {
+    flexGrow: 1
   },
   profileImage: {
     height: 105,
@@ -89,14 +95,14 @@ class TopBar extends Component {
         >
           <div className={classes.toolbar} />
           {user && (
-            <div>
+            <div style={{ flexGrow: 1 }}>
               <div style={{ filter: 'drop-shadow(#fff 0px 0px 2px)' }}>
                 <div style={{
                   background: `url(${user.photoURL}) center no-repeat`,
                   backgroundSize: 'cover'
                 }} className={classes.profileImage} />
               </div>
-              <List>
+              <List classes={{ root: classes.navList }}>
                 <Link to={'/'} className={classes.nav}>
                   <ListItem button key={'Rules'}>
                     <ListItemText classes={{ primary: classes.nav }} primary={'Rules'}>Rules</ListItemText>
@@ -119,7 +125,7 @@ class TopBar extends Component {
             </div>
           )}
           {!user &&
-            <List>
+            <List classes={{ root: classes.navList }}>
               <Link to={'/'} className={classes.nav}>
                 <ListItem button key={'Rules'}>
                   <ListItemText classes={{ primary: classes.nav }} primary={'Rules'} />
@@ -129,6 +135,10 @@ class TopBar extends Component {
                 <ListItemText classes={{ primary: classes.nav }} primary={'Sign In / Sign Up'} />
               </ListItem>
             </List>}
+          <div className={'drawer-bottom'}>
+            <p className={'disclaimer'}>This site is not owned by, affiliated with, or operated by HBO. Game of Thrones and its characters are a copyright of HBO. This is just for funsies. I am making no money off of it.</p>
+            <a href={'https://bethgilomen.com'} target={'_blank'}>who made this?</a>
+          </div>
         </Drawer>
       ]
     )

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchUser } from './models/user/actions'
-import TopBar from './components/TopBar'
+import TopBar from './components/TopBar/TopBar'
 import Pools from './routes/pools/Pools'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import './App.scss'
@@ -38,7 +38,7 @@ class App extends Component {
     } else if(!nextProps.user) {
       return {storageUser: Storage.getItem(storageKey)}
     } else {
-      return prevState
+      return null
     }
   }
 
