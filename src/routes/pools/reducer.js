@@ -119,7 +119,7 @@ export default function pools (state = { error: false }, action) {
       return {
         ...state,
         isLoading: false,
-        error: `The pool is either full or doesn't exist. Confirm the pool id with the person who gave it to you, or ask if they pool already has 50 users.`
+        error: `The pool is either full or doesn't exist. Confirm the pool id with the person who gave it to you, or ask if the pool already has 50 users.`
       }
     case CLEAR_ERRORS:
       return {
