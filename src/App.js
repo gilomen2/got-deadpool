@@ -17,6 +17,8 @@ import { Loader } from './components/Loader/Loader'
 import { selectPoolsError, selectPoolsLoading } from './routes/pools/reducer'
 import { selectBracketError, selectBracketLoading } from './routes/bracket/reducer'
 import Errors, { clearErrors } from './components/Error'
+import { getUserBracket } from './routes/bracket/actions'
+import { getPools } from './routes/pools/actions'
 
 class App extends Component {
   state = {
@@ -26,10 +28,17 @@ class App extends Component {
   componentDidMount () {
     const {
       fetchUser,
-      getGame
+      getGame,
+      user,
+      getPools,
+      getUserBracket
     } = this.props
     fetchUser()
     getGame()
+    if (user) {
+      getPools()
+      getUserBracket()
+    }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -39,6 +48,18 @@ class App extends Component {
       return {storageUser: Storage.getItem(storageKey)}
     } else {
       return null
+    }
+  }
+
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    const {
+      user,
+      getPools,
+      getUserBracket
+    } = this.props
+    if(user && !prevProps.user) {
+      getPools()
+      getUserBracket()
     }
   }
 
@@ -75,4 +96,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default (connect(mapStateToProps, { fetchUser, getGame, clearErrors })(App))
+export default (connect(mapStateToProps, { fetchUser, getGame, clearErrors, getUserBracket, getPools })(App))
