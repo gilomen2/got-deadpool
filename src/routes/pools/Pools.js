@@ -25,7 +25,7 @@ class Pools extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if(nextProps.userPools){
+    if(nextProps.userPools && nextProps.userPools.length){
       let copiedPools = {}
       nextProps.userPools.forEach(pool => {
         copiedPools[pool.id] = prevState.copiedPools[pool.id] || false
