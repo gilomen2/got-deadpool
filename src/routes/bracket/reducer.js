@@ -7,6 +7,7 @@ import {
 } from './consts'
 import { POOL_USERS_SUCCESS } from '../pools/consts'
 import { CLEAR_ERRORS } from '../../components/Error'
+import { USER_SIGN_OUT_SUCCESS } from '../../models/user/consts'
 
 export default function bracket (state = { error: false }, action) {
   switch (action.type) {
@@ -58,6 +59,11 @@ export default function bracket (state = { error: false }, action) {
       return {
         ...state,
         error: false
+      }
+    case USER_SIGN_OUT_SUCCESS:
+      return {
+        ...state,
+        userBracket: undefined
       }
     default:
       return state
