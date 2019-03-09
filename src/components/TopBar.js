@@ -30,7 +30,8 @@ const styles = theme => ({
   drawerPaper: {
     width: drawerWidth,
     background: `linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(127,126,128,0.39) 59%,rgba(84,82,85,0.46) 79%,rgba(38,36,39,1)), url(${Dragonglass}) center`,
-    backgroundSize: 'cover'
+    backgroundSize: 'cover',
+    overflow: 'hidden'
   },
   noBorder: {
     border: 'none'
