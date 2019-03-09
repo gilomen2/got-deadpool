@@ -1,0 +1,15 @@
+.drawer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+  padding: 15px;
+  .disclaimer {
+    color: #fff;
+    font-size: 12px;
+  }
+  a {
+    text-align: center;
+    text-decoration: none;
+    color: #557087;
+  }
+}
