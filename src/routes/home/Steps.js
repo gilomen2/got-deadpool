@@ -9,6 +9,10 @@ import { selectUserBracket } from '../bracket/reducer'
 import { signIn } from '../../models/user/actions'
 import { withMedia } from '../../utils/withMediaQuery'
 
+const queries = {
+  mobile: "(max-width: 768px)"
+}
+
 class Steps extends Component {
 
   state = {
@@ -113,4 +117,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default withMedia(connect(mapStateToProps, {signIn})(Steps))
+export default withMedia(connect(mapStateToProps, {signIn})(Steps), queries)

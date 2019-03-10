@@ -1,9 +1,7 @@
 import React from 'react'
 
-export const withMedia = Comp => {
-  const media = createMediaListener({
-    mobile: "(max-width: 768px)"
-  });
+export const withMedia = (Comp, queries) => {
+  const media = createMediaListener(queries);
 
   return class WithMedia extends React.Component {
     state = {
