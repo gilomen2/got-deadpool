@@ -1,3 +1,15 @@
-.countdown {
-  font-family: 'Nova Mono', monospace;
+@import '../../styles/mixins';
+
+.countdown-container {
+  display: flex;
+  height: 100%;
+  color: #fff;
+  justify-content: center;
+  @media #{$mobile} {
+    flex-grow: 1;
+  }
+  .countdown {
+    font-family: 'Nova Mono', monospace;
+    align-self: center;
+  }
 }

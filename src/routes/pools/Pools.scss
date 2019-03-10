@@ -1,12 +1,12 @@
-.join-pool, .create-pool {
-  display: flex;
-  align-items: center;
-}
+@import '../../styles/mixins';
 
 .pool-panel-wrapper {
   width: 100%;
   display: flex;
   flex-direction: row;
+  @media #{$mobile} {
+    flex-direction: column-reverse;
+  }
 }
 
 .pool-players-list {
@@ -17,12 +17,23 @@
   flex: 1;
   justify-content: flex-end;
   display: flex;
+  @media #{$mobile} {
+    display: inline-flex;
+    align-self: flex-end;
+  }
 }
 
 .pool-admin {
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
+  @media #{$mobile} {
+    flex-direction: column;
+  }
+  .join-pool, .create-pool {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .avatar-wrapper {

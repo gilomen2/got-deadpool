@@ -16,7 +16,8 @@ const styles = theme => ({
     width: drawerWidth,
     background: `linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(127,126,128,0.39) 59%,rgba(84,82,85,0.46) 79%,rgba(38,36,39,1)), url(${Dragonglass}) center`,
     backgroundSize: 'cover',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    height: '100vh'
   },
   noBorder: {
     border: 'none',
@@ -26,20 +27,8 @@ const styles = theme => ({
 })
 
 class SwipeableDrawerWrapper extends Component {
-
-  state = {
-    open: false
-  }
-
-  toggleDrawer = () => {
-    this.setState({
-      open: !this.state.open
-    })
-  }
-
   render () {
-    const {open} = this.state
-    const {user, classes} = this.props
+    const { classes, open, handleClose, children } = this.props
     return (
       <SwipeableDrawer
         className={classes.drawer}
@@ -48,11 +37,10 @@ class SwipeableDrawerWrapper extends Component {
           paperAnchorDockedLeft: classes.noBorder
         }}
         open={open}
-        onOpen={this.toggleDrawer}
-        onClose={this.toggleDrawer}
+        onClose={handleClose}
         disableBackdropTransition={!iOS}
         disableDiscovery={iOS}>
-        <NavLinks user={user}/>
+        {children}
       </SwipeableDrawer>
     )
   }

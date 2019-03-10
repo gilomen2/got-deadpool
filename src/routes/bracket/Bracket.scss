@@ -1,3 +1,5 @@
+@import '../../styles/mixins';
+
 .bracket-container {
 
 }
@@ -6,6 +8,12 @@
   display: flex;
   flex-direction: row;
   margin: 65px 0;
+  @media #{$mobile} {
+    flex-direction: column;
+    &:first-child {
+      margin-top: 0px;
+    }
+  }
   .house-name {
     font-family: 'game_of_thronesregular', serif;
     color: #29455a;
@@ -13,6 +21,9 @@
   .house-info {
     width: 30%;
     margin-right: 45px;
+    @media #{$mobile} {
+      width: 100%;
+    }
   }
   .house-members {
     display: flex;

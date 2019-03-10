@@ -60,14 +60,14 @@ const PoolPlayer = ({ photoUrl, displayName, score, rank }) => {
 const PoolPlayerPreGame = ({ photoUrl, displayName, score }) => {
   return (
     <List>
-      <ListItem alignItems='flex-start'>
+      <ListItem alignItems='flex-start' disableGutters>
         <ListItemAvatar>
           <Avatar alt={displayName} src={photoUrl} />
         </ListItemAvatar>
         <ListItemText
           primary={
             <React.Fragment>
-              <Typography component='span' color='textPrimary'>
+              <Typography component='span' color='textPrimary' noWrap>
                 {displayName}
               </Typography>
             </React.Fragment>

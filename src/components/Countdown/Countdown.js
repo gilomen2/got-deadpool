@@ -12,7 +12,7 @@ const CountdownRender = ({ days, hours, minutes, seconds, completed }) => {
   } else {
     // Render a countdown
     return (
-      <div>
+      <div className={'countdown-container'}>
         <span key={'counter'} className={'countdown'}>{pad2(days)}:{pad2(hours)}:{pad2(minutes)}:{pad2(seconds)}</span>
       </div>
     )

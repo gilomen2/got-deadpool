@@ -1,3 +1,5 @@
+@import 'styles/mixins';
+
 @font-face {
   font-family: 'game_of_thronesregular';
   src: url('./fonts/game_of_thrones-webfont.woff2') format('woff2'),
@@ -11,7 +13,7 @@ body {
 }
 
 .toolbar {
- min-height: 64px;
+ min-height: 58px;
 }
 
 .app-container {
@@ -35,6 +37,9 @@ body {
 
 .App {
   display: flex;
+  @media #{$mobile} {
+    display: block;
+  }
 }
 
 header {

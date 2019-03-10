@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import NavLinks from './NavLinks'
 import SwipeableDrawerWrapper from './SwipeableDrawerWrapper'
+import { CountdownTimer } from '../../Countdown/Countdown'
 
 const drawerWidth = 240
 
@@ -31,12 +32,22 @@ const styles = theme => ({
 
 class ResponsiveDrawer extends Component {
   render () {
-    const { classes, user } = this.props
+    const { classes, user, open, handleClose } = this.props
 
     return (
       <Media query={'(max-width: 768px)'}>
         {matches =>
-          matches ? (<SwipeableDrawerWrapper user={user} />
+          matches ? (
+            <SwipeableDrawerWrapper user={user} open={open} handleClose={handleClose}>
+              <div className={classes.toolbar}>
+                <CountdownTimer />
+              </div>
+              <NavLinks user={user} />
+              <div className={'drawer-bottom'}>
+                <p className={'disclaimer'}>This site is not owned by, affiliated with, or operated by HBO. Game of Thrones and its characters are a copyright of HBO. This is just for funsies. I am making no money off of it.</p>
+                <a href={'https://bethgilomen.com'} target={'_blank'}>who made this?</a>
+              </div>
+            </SwipeableDrawerWrapper>
           ) : (
             <Drawer key={'drawer'}
               className={classes.drawer}
