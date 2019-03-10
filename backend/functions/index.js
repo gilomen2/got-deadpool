@@ -5,7 +5,7 @@ admin.initializeApp()
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
-exports.scorePools = functions.https.onRequest(async function (request, response) {
+exports.scorePools = functions.https.onRequest(function (request, response) {
   return admin.firestore().collection('game').doc('master').get().then(function (gameSnapshot) {
     let game = gameSnapshot.data()
 
@@ -90,7 +90,7 @@ function scoreBracket (bracket, game, characterData) {
   return score
 }
 
-exports.copyPools = functions.https.onRequest(async function (request, response) {
+exports.copyPools = functions.https.onRequest(function (request, response) {
   return admin.firestore().collection('pools').get().then(function (poolsSnapshot) {
     let copyOfPoolsData = {}
     poolsSnapshot.docs.forEach(function (pool) {
