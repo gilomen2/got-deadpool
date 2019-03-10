@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Media from 'react-media'
-import Dragonglass from '../../../images/dragonglass-small.jpg'
+import Dragonglass from '../../../images/dragonglass-small2.jpg'
 import { withStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import NavLinks from './NavLinks'

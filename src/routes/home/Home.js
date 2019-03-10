@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { selectGameStatus } from '../../models/game/reducer'
 
 class Home extends Component {
-  render() {
+  render () {
     const {
       history,
       user,
