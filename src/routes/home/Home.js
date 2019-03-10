@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { selectGameStatus } from '../../models/game/reducer'
 
 class Home extends Component {
-  render () {
+  render() {
     const {
       history,
       user,
@@ -34,6 +34,28 @@ class Home extends Component {
           </div>
         }
         <h2>These are the Rules, don't @ me</h2>
+        <h3>Scoring</h3>
+        <p>Points will be calculated for each member of your pool after each episode.</p>
+        <ul>
+          <li><b>Episode death prediction:</b></li>
+          <ul>
+            <li>Correct: +200</li>
+            <li>Incorrect:</li>
+            <ul>
+              <li>Off by 1: +100</li>
+              <li>Off by 2: +50</li>
+              <li>Off by 3: +25</li>
+              <li>Off by > 3: 0</li>
+              <li>Character survives: -25</li>
+            </ul>
+          </ul>
+          <li><b>Survivor prediction:</b></li>
+          <ul>
+            <li>Correct: +150</li>
+            <li>Incorrect: -100</li>
+          </ul>
+        </ul>
+        <h3>Metaphysical Edge Cases and "Well Actually"s</h3>
         <ul>
           <li>"Alive" means the character is walking around (or whatever it is Bran is doing) at the end of the episode OR is unconfirmed dead from injuries sustained at the end of the episode.</li>
           <li>If they die and come back as anything other than a wight, they are alive.</li>
@@ -50,27 +72,6 @@ class Home extends Component {
           <li>Some characters who are probably alive aren't on the bracket. I just don't really care about Robin Arryn and the likelihood he will play any meaningful role in the final season seems slim to me. He doesn't get to play.</li>
           <li>If somebody who wasn't on the bracket comes back, too bad. They missed the draft. They don't count for anything.</li>
           <li>Any and all questions in regards to the rules will be decided by the game master (me). If you don't like it, you can figure out your own points system/rules amongst your pool.</li>
-        </ul>
-        <h2>Points</h2>
-        <p>Points will be calculated for each member of your pool after each episode.</p>
-        <ul>
-          <li>Episode death prediction:</li>
-          <ul>
-            <li>Correct: +200</li>
-            <li>Incorrect:</li>
-            <ul>
-              <li>Off by 1: +100</li>
-              <li>Off by 2: +50</li>
-              <li>Off by 3: +25</li>
-              <li>Off by > 3: 0</li>
-              <li>Character survives: -25</li>
-            </ul>
-          </ul>
-          <li>Survivor prediction:</li>
-          <ul>
-            <li>Correct: +150</li>
-            <li>Incorrect: -100</li>
-          </ul>
         </ul>
       </div>
     )
