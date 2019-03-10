@@ -6,16 +6,16 @@ admin.initializeApp()
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 exports.scorePools = functions.https.onRequest(async function (request, response) {
-  admin.firestore().collection('game').doc('master').get().then(function (gameSnapshot) {
+  return admin.firestore().collection('game').doc('master').get().then(function (gameSnapshot) {
     let game = gameSnapshot.data()
 
-    admin.firestore().collection('characters').get().then(function (charactersSnapshot) {
+    return admin.firestore().collection('characters').get().then(function (charactersSnapshot) {
       let characterData = {}
       charactersSnapshot.docs.forEach(character => {
         characterData[character.id] = character.data()
       })
 
-      admin.firestore().collection('users').get().then(function (usersSnapshot) {
+      return admin.firestore().collection('users').get().then(function (usersSnapshot) {
         let users = {}
         usersSnapshot.docs.forEach(function (user) {
           const userData = user.data()
@@ -23,7 +23,7 @@ exports.scorePools = functions.https.onRequest(async function (request, response
           users[user.id].score = scoreBracket(userData.bracket, game, characterData)
         })
 
-        admin.firestore().collection('pools').get().then(function (poolsSnapshot) {
+        return admin.firestore().collection('pools').get().then(function (poolsSnapshot) {
           let promises = poolsSnapshot.docs.map(function (pool) {
             const poolData = pool.data()
             const poolPlayers = poolData.users ? poolData.users.map(function (userId) {
@@ -36,18 +36,22 @@ exports.scorePools = functions.https.onRequest(async function (request, response
             })
           })
 
-          Promise.all(promises).then(function (res) {
-            response.send(JSON.stringify({
+          return Promise.all(promises).then(function (res) {
+            return response.send(JSON.stringify({
               game,
               users,
               characterData
             }, null, 3))
           }).catch(function (e) {
-            response.send(e)
+            return response.send(e)
           })
         })
+      }).catch(function (e) {
+        return e
       })
     })
+  }).catch(function (e) {
+    return e
   })
 })
 
@@ -87,21 +91,22 @@ function scoreBracket (bracket, game, characterData) {
 }
 
 exports.copyPools = functions.https.onRequest(async function (request, response) {
-  admin.firestore().collection('pools').get().then(poolsSnapshot => {
+  return admin.firestore().collection('pools').get().then(function (poolsSnapshot) {
     let copyOfPoolsData = {}
     poolsSnapshot.docs.forEach(function (pool) {
       copyOfPoolsData[pool.id] = pool.data()
     })
 
     const promises = Object.keys(copyOfPoolsData).map(function (poolId) {
-      console.log(poolId)
       return admin.firestore().collection('test-pools').add(copyOfPoolsData[poolId])
     })
 
-    Promise.all(promises).then(function (ps) {
+    return Promise.all(promises).then(function (ps) {
       return response.send('OK')
     }).catch(function (e) {
       return response.send('Nope')
     })
+  }).catch(function (e) {
+    return e
   })
 })
