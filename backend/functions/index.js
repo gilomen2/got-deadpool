@@ -18,7 +18,9 @@ exports.scorePools = functions.https.onRequest(async (request, response) => {
       admin.firestore().collection('users').get().then(usersSnapshot => {
         let users = {}
         usersSnapshot.docs.forEach(user => {
-          users[user.id] = user.data();
+          const userData = user.data()
+          users[user.id] = userData;
+          users[user.id].score = scoreBracket(userData.bracket, game, characterData);
         });
   
   
@@ -30,26 +32,43 @@ exports.scorePools = functions.https.onRequest(async (request, response) => {
         }, null, 3))
       })
     });
-
-    
-
-    // admin.firestore().collection('pools').get().then(poolsSnapshot => {
-    //   let pools = poolsSnapshot.docs.map(doc => {
-    //     return doc.data().users.forEach(user => {
-    //       admin.firestore.collection('users').doc(user).get().then(userSnapshot => {
-
-    //       })
-    //     })
-    //   })
-
-
-    //   admin.firestore().collection('users').
-    //   response.send(JSON.stringify({
-    //     game,
-    //     pools
-    //   }, null, 3))
-    // });
   })
-
-  
 });
+
+
+function scoreBracket(bracket, game, characterData){
+  const {scoring: gameScoring} = game;
+  let score = 0;
+  console.log(bracket)
+  if (bracket){
+
+    Object.keys(bracket).forEach(characterName => {
+      let characterStatus = characterData[characterName]
+
+      let characterPrediction = bracket[characterName];
+      if (characterStatus && characterStatus.lastEpisodeAlive) {
+        const diff = Math.abs(characterStatus.lastEpisodeAlive - characterPrediction)
+        if (characterStatus.lastEpisodeAlive === 0) {
+          if (characterPrediction === 0) {
+            score += gameScoring.survivor.correct
+          } else {
+            score += gameScoring.episodeDeath.survives
+          }
+        } else {
+          if (diff > 3) {
+            score += gameScoring.episodeDeath.offByMore
+          } else if (diff === 3) {
+            score += gameScoring.episodeDeath.offBy3
+          } else if (diff === 2) {
+            score += gameScoring.episodeDeath.offBy2
+          } else if (diff === 1) {
+            score += gameScoring.episodeDeath.offBy1
+          } else if (diff === 0) {
+            score += gameScoring.episodeDeath.correct
+          }
+        }
+      }
+    });
+  }
+  return score;
+}
