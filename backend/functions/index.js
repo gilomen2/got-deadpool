@@ -6,45 +6,42 @@ admin.initializeApp()
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 exports.scorePools = functions.https.onRequest(async (request, response) => {
-  admin.firestore().collection('game').doc('test1').get().then(gameSnapshot => {
-    let game = gameSnapshot.data()
+  let gameCollection = await admin.firestore().collection('game').doc('test1').get()
+  let game = gameCollection.data()
 
-    admin.firestore().collection('test-characters').get().then(charactersSnapshot => {
-      let characterData = {}
-      charactersSnapshot.docs.forEach(character => {
-        characterData[character.id] = character.data()
-      })
+  let charactersCollection = await admin.firestore().collection('test-characters').get()
+  let characterData = {}
+  charactersCollection.docs.forEach(character => {
+    characterData[character.id] = character.data()
+  })
 
-      admin.firestore().collection('users').get().then(usersSnapshot => {
-        let users = {}
-        usersSnapshot.docs.forEach(user => {
-          const userData = user.data()
-          users[user.id] = userData
-          users[user.id].score = scoreBracket(userData.bracket, game, characterData)
-        })
+  let usersCollection = await admin.firestore().collection('users').get()
+  let users = {}
+  usersCollection.docs.forEach(user => {
+    const userData = user.data()
+    users[user.id] = userData
+    users[user.id].score = scoreBracket(userData.bracket, game, characterData)
+  })
 
-        admin.firestore().collection('pools').get().then(poolsSnapshot => {
-          let promises = poolsSnapshot.docs.map(pool => {
-            const poolData = pool.data()
-            const poolPlayers = poolData.users ? poolData.users.map(userId => {
-              return users[userId]
-            }) : []
-            return admin.firestore().collection('pools').doc(pool.id).set({ players: poolPlayers }, { merge: true })
-          })
+  let poolsCollection = await admin.firestore().collection('test-pools').get()
 
-          Promise.all(promises).then(res => {
-            response.send(JSON.stringify({
-              game,
-              users,
-              characterData
-            }, null, 3))
-          }).catch(e => {
-            console.log(e)
-            response.send(e)
-          })
-        })
-      })
-    })
+  let promises = poolsCollection.docs.map(pool => {
+    const poolData = pool.data()
+    const poolPlayers = poolData.users ? poolData.users.map(userId => {
+      return users[userId]
+    }) : []
+    return admin.firestore().collection('test-pools').doc(pool.id).set({ players: poolPlayers }, { merge: true })
+  })
+
+  Promise.all(promises).then(res => {
+    response.send(JSON.stringify({
+      game,
+      users,
+      characterData
+    }, null, 3))
+  }).catch(e => {
+    console.log(e)
+    response.send(e)
   })
 })
 
@@ -84,19 +81,18 @@ function scoreBracket (bracket, game, characterData) {
 }
 
 exports.copyPools = functions.https.onRequest(async (request, response) => {
-  admin.firestore().collection('pools').get().then(poolsSnapshot => {
-    let copyOfPoolsData = {}
-    poolsSnapshot.docs.forEach(pool => {
-      copyOfPoolsData[pool.id] = pool.data()
-    })
+  let poolsCollection = await admin.firestore().collection('pools').get()
+  let copyOfPoolsData = {}
+  poolsCollection.docs.forEach(pool => {
+    copyOfPoolsData[pool.id] = pool.data()
+  })
 
-    const promises = Object.keys(copyOfPoolsData).map(poolId => {
-      console.log(poolId)
-      return admin.firestore().collection('test-pools').add(copyOfPoolsData[poolId])
-    })
+  const promises = Object.keys(copyOfPoolsData).map(poolId => {
+    console.log(poolId)
+    return admin.firestore().collection('test-pools').add(copyOfPoolsData[poolId])
+  })
 
-    Promise.all(promises).then(ps => {
-      response.send('OK')
-    })
+  Promise.all(promises).then(ps => {
+    response.send('OK')
   })
 })
