@@ -30,7 +30,7 @@ const styles = theme => ({
 
 class NavLinks extends Component {
   render () {
-    const { user, classes, signIn, signOut } = this.props
+    const { user, classes, signIn, signOut, handleDrawerClose } = this.props
     return (
       <React.Fragment>
         { user ? <div style={{ flexGrow: 1 }}>
@@ -41,17 +41,17 @@ class NavLinks extends Component {
             }} className={classes.profileImage} />
           </div>
           <List classes={{ root: classes.navList }}>
-            <Link to={'/'} className={classes.nav}>
+            <Link onClick={handleDrawerClose} to={'/'} className={classes.nav}>
               <ListItem button key={'Rules'}>
                 <ListItemText classes={{ primary: classes.nav }} primary={'Rules'}>Rules</ListItemText>
               </ListItem>
             </Link>
-            <Link to={'/bracket'} className={classes.nav}>
+            <Link onClick={handleDrawerClose} to={'/bracket'} className={classes.nav}>
               <ListItem button key={'Your Bracket'}>
                 <ListItemText classes={{ primary: classes.nav }} primary={'Your Bracket'} />
               </ListItem>
             </Link>
-            <Link to={'/pools'} className={classes.nav}>
+            <Link onClick={handleDrawerClose} to={'/pools'} className={classes.nav}>
               <ListItem button key={'Pools'}>
                 <ListItemText classes={{ primary: classes.nav }} primary={'Pools'} />
               </ListItem>
@@ -61,7 +61,7 @@ class NavLinks extends Component {
             </ListItem>
           </List>
         </div> : <List classes={{ root: classes.navList }}>
-          <Link to={'/'} className={classes.nav}>
+          <Link onClick={handleDrawerClose} to={'/'} className={classes.nav}>
             <ListItem button key={'Rules'}>
               <ListItemText classes={{ primary: classes.nav }} primary={'Rules'} />
             </ListItem>

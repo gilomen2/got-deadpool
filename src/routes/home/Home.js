@@ -10,12 +10,12 @@ class Home extends Component {
       history,
       user,
       gameLoaded,
-      gameStatus
+      gameStarted
     } = this.props
 
     return (
       <div>
-        {gameLoaded && !gameStatus &&
+        {gameLoaded && !gameStarted &&
           <div>
             <Steps history={history} />
             <h2>How It Works</h2>
@@ -80,7 +80,8 @@ class Home extends Component {
 
 const mapStateToProps = state => {
   return {
-    game: selectGameStatus(state)
+    game: selectGameStatus(state),
+    gameStarted: selectGameStatus(state)
   }
 }
 

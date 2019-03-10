@@ -7,6 +7,7 @@ import { selectUser } from '../../models/user/reducer'
 import { selectPools } from '../pools/reducer'
 import { selectUserBracket } from '../bracket/reducer'
 import { signIn } from '../../models/user/actions'
+import { withMedia } from '../../utils/withMediaQuery'
 
 class Steps extends Component {
 
@@ -74,14 +75,15 @@ class Steps extends Component {
 
   render () {
     const {
-      history
+      history,
+      media
     } = this.props
 
     const {
       activeStep
     } = this.state
     return (
-      <Stepper nonLinear activeStep={activeStep}>
+      <Stepper nonLinear activeStep={activeStep} orientation={media.mobile ? 'vertical' : 'horizontal'}>
         <Step key={'Sign Up'}>
           <StepButton onClick={this.clickSignUp} completed={this.state.completed['user']}>
             Sign Up
@@ -111,4 +113,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps, {signIn})(Steps)
+export default withMedia(connect(mapStateToProps, {signIn})(Steps))

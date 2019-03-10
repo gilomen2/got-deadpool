@@ -11,6 +11,12 @@
 
 .pool-players-list {
   flex-basis: 80%;
+  @media #{$mobile} {
+    overflow-x: scroll;
+  }
+  &.full-width {
+    flex-basis: 100%;
+  }
 }
 
 .pool-actions {

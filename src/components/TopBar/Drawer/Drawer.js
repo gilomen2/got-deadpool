@@ -30,6 +30,18 @@ const styles = theme => ({
   }
 })
 
+const DrawerContent = ({ handleClose, user }) => {
+  return (
+    <React.Fragment>
+      <NavLinks handleDrawerClose={handleClose} user={user} />
+      <div className={'drawer-bottom'}>
+        <p className={'disclaimer'}>This site is not owned by, affiliated with, or operated by HBO. Game of Thrones and its characters are a copyright of HBO. This is just for funsies. I am making no money off of it.</p>
+        <a href={'https://bethgilomen.com'} target={'_blank'}>who made this?</a>
+      </div>
+    </React.Fragment>
+  )
+}
+
 class ResponsiveDrawer extends Component {
   render () {
     const { classes, user, open, handleClose } = this.props
@@ -42,11 +54,7 @@ class ResponsiveDrawer extends Component {
               <div className={classes.toolbar}>
                 <CountdownTimer />
               </div>
-              <NavLinks user={user} />
-              <div className={'drawer-bottom'}>
-                <p className={'disclaimer'}>This site is not owned by, affiliated with, or operated by HBO. Game of Thrones and its characters are a copyright of HBO. This is just for funsies. I am making no money off of it.</p>
-                <a href={'https://bethgilomen.com'} target={'_blank'}>who made this?</a>
-              </div>
+              <DrawerContent handleClose={handleClose} user={user} />
             </SwipeableDrawerWrapper>
           ) : (
             <Drawer key={'drawer'}
@@ -59,11 +67,7 @@ class ResponsiveDrawer extends Component {
               anchor='left'
             >
               <div className={classes.toolbar} />
-              <NavLinks user={user} />
-              <div className={'drawer-bottom'}>
-                <p className={'disclaimer'}>This site is not owned by, affiliated with, or operated by HBO. Game of Thrones and its characters are a copyright of HBO. This is just for funsies. I am making no money off of it.</p>
-                <a href={'https://bethgilomen.com'} target={'_blank'}>who made this?</a>
-              </div>
+              <DrawerContent handleClose={handleClose} user={user} />
             </Drawer>
           )}
       </Media>

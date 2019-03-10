@@ -23,7 +23,7 @@ export const PoolPlayersPreGame = ({ poolPlayers, poolId }) => {
 
 export const PoolPlayers = ({ poolPlayers, poolId }) => {
   return (
-    <div className={'pool-players-list'}>
+    <div className={'pool-players-list full-width'}>
       <Table>
         <TableHead>
           <TableRow>

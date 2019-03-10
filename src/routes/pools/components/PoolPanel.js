@@ -31,20 +31,24 @@ const PoolPanel = ({ pool, copiedPools, onCopy, gameStarted, classes }) => {
               gameStarted ? <PoolPlayers poolPlayers={pool.players} poolId={pool.id} /> : <PoolPlayersPreGame poolPlayers={pool.players} poolId={pool.id} />
             )
           }
-          <div className={'pool-actions'}>
-            <CopyToClipboard
-              text={pool.id}
-              onCopy={() => onCopy(pool.id)}>
-              <Tooltip title='Copy Pool Id to share with others'>
-                <Fab color='secondary' className={classes.iconColor} aria-label='Edit'>
-                  {copiedPools[pool.id]
-                    ? <Check />
-                    : <FileCopy />
-                  }
-                </Fab>
-              </Tooltip>
-            </CopyToClipboard>
-          </div>
+          {
+            !gameStarted && (
+              <div className={'pool-actions'}>
+                <CopyToClipboard
+                  text={pool.id}
+                  onCopy={() => onCopy(pool.id)}>
+                  <Tooltip title='Copy Pool Id to share with others'>
+                    <Fab color='secondary' className={classes.iconColor} aria-label='Edit'>
+                      {copiedPools[pool.id]
+                        ? <Check />
+                        : <FileCopy />
+                      }
+                    </Fab>
+                  </Tooltip>
+                </CopyToClipboard>
+              </div>
+            )
+          }
         </div>
       </ExpansionPanelDetails>
     </ExpansionPanel>
