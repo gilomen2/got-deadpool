@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "got-deadpool-3a31b"
+    "default": "got-deadpool-3a31b",
+    "dev": "got-deadpool-3a31b"
   }
 }
