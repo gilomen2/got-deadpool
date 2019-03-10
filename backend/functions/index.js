@@ -23,8 +23,6 @@ exports.scorePools = functions.https.onRequest(async (request, response) => {
           users[user.id].score = scoreBracket(userData.bracket, game, characterData);
         });
   
-  
-  
         response.send(JSON.stringify({
           game,
           users,
@@ -72,3 +70,23 @@ function scoreBracket(bracket, game, characterData){
   }
   return score;
 }
+
+exports.copyPools = functions.https.onRequest(async (request, response) => {
+  admin.firestore().collection('pools').get().then(poolsSnapshot => {
+    let copyOfPoolsData = {}
+    poolsSnapshot.docs.forEach(pool => {
+      copyOfPoolsData[pool.id] = pool.data()
+    });
+
+    
+    const promises = Object.keys(copyOfPoolsData).map(poolId => {
+      console.log(poolId)
+      return admin.firestore().collection('test-pools').add(copyOfPoolsData[poolId])
+    });
+
+    Promise.all(promises).then(ps => { 
+      response.send("OK");
+    })
+    
+  });
+});
