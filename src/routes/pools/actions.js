@@ -142,36 +142,38 @@ export const calcPoolResults = (poolId) => (dispatch, getState) => {
       let poolPlayers = pool.players
       let scoredPlayers = poolPlayers.map(player => {
         let score = 0
-        Object.keys(player.bracket).forEach(character => {
-          let characterStatus = find(characterData, function (house) {
-            return find(house, function (person) {
-              return person.name === character
-            })
-          })[0]
-          let characterPrediction = player.bracket[character]
-          if (characterStatus && characterStatus.lastEpisodeAlive) {
-            const diff = Math.abs(characterStatus.lastEpisodeAlive - characterPrediction)
-            if (characterStatus.lastEpisodeAlive === 0) {
-              if (characterPrediction === 0) {
-                score += gameScoring.survivor.correct
+        if (player.bracket){
+          Object.keys(player.bracket).forEach(character => {
+            let characterStatus = find(characterData, function (house) {
+              return find(house, function (person) {
+                return person.name === character
+              })
+            })[0]
+            let characterPrediction = player.bracket[character]
+            if (characterStatus && characterStatus.lastEpisodeAlive) {
+              const diff = Math.abs(characterStatus.lastEpisodeAlive - characterPrediction)
+              if (characterStatus.lastEpisodeAlive === 0) {
+                if (characterPrediction === 0) {
+                  score += gameScoring.survivor.correct
+                } else {
+                  score += gameScoring.episodeDeath.survives
+                }
               } else {
-                score += gameScoring.episodeDeath.survives
-              }
-            } else {
-              if (diff > 3) {
-                score += gameScoring.episodeDeath.offByMore
-              } else if (diff === 3) {
-                score += gameScoring.episodeDeath.offBy3
-              } else if (diff === 2) {
-                score += gameScoring.episodeDeath.offBy2
-              } else if (diff === 1) {
-                score += gameScoring.episodeDeath.offBy1
-              } else if (diff === 0) {
-                score += gameScoring.episodeDeath.correct
+                if (diff > 3) {
+                  score += gameScoring.episodeDeath.offByMore
+                } else if (diff === 3) {
+                  score += gameScoring.episodeDeath.offBy3
+                } else if (diff === 2) {
+                  score += gameScoring.episodeDeath.offBy2
+                } else if (diff === 1) {
+                  score += gameScoring.episodeDeath.offBy1
+                } else if (diff === 0) {
+                  score += gameScoring.episodeDeath.correct
+                }
               }
             }
-          }
-        })
+          })
+        }
         player.score = score
         return player
       })

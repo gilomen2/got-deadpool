@@ -78,9 +78,11 @@ class TopBar extends Component {
           <Toolbar classes={{
             root: classes.toolbarContents
           }}>
-            <Typography variant='h6' color='inherit' className={classes.logoFont}>
-                Valar Morghulis
-            </Typography>
+            <Link to={'/'} className={classes.nav}>
+              <Typography variant='h6' color='inherit' className={classes.logoFont}>
+                  Valar Morghulis
+              </Typography>
+            </Link>
             <CountdownTimer />
           </Toolbar>
         </AppBar>,
