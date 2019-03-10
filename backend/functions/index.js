@@ -2,10 +2,15 @@ const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 admin.initializeApp()
 
+const runtimeOpts = {
+  timeoutSeconds: 300,
+  memory: '512MB'
+}
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
-exports.scorePools = functions.https.onRequest(function (request, response) {
+exports.scorePools = functions.runWith(runtimeOpts).https.onRequest(function (request, response) {
   return admin.firestore().collection('game').doc('master').get().then(function (gameSnapshot) {
     let game = gameSnapshot.data()
 
