@@ -18,9 +18,9 @@ const styles = {
   }
 }
 
-const PoolPanel = ({ pool, copiedPools, onCopy, handleExpand, gameStarted, classes }) => {
+const PoolPanel = ({ pool, copiedPools, onCopy, gameStarted, classes }) => {
   return (
-    <ExpansionPanel onChange={handleExpand(pool)}>
+    <ExpansionPanel>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
         <Typography variant={'h5'}>{pool.name}</Typography>
       </ExpansionPanelSummary>

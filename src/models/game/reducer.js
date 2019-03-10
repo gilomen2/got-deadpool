@@ -31,6 +31,4 @@ export default function game (state = {}, action) {
 }
 
 export const selectGameStatus = ({ game }) => game.isStarted
-export const selectGameLastUpdated = ({ game }) => game.lastEpisodeUpdated
-export const selectGameScoring = ({ game }) => game.scoring
 export const selectGameLoaded = ({ game }) => game.isLoaded

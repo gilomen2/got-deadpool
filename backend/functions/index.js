@@ -60,6 +60,56 @@ exports.scorePools = functions.runWith(runtimeOpts).https.onRequest(function (re
   })
 })
 
+exports.scoreTestGamePools = functions.runWith(runtimeOpts).https.onRequest(function (request, response) {
+  return admin.firestore().collection('game').doc('test1').get().then(function (gameSnapshot) {
+    let game = gameSnapshot.data()
+
+    return admin.firestore().collection('test-characters').get().then(function (charactersSnapshot) {
+      let characterData = {}
+      charactersSnapshot.docs.forEach(character => {
+        characterData[character.id] = character.data()
+      })
+
+      return admin.firestore().collection('users').get().then(function (usersSnapshot) {
+        let users = {}
+        usersSnapshot.docs.forEach(function (user) {
+          const userData = user.data()
+          users[user.id] = userData
+          users[user.id].score = scoreBracket(userData.bracket, game, characterData)
+        })
+
+        return admin.firestore().collection('pools').get().then(function (poolsSnapshot) {
+          let promises = poolsSnapshot.docs.map(function (pool) {
+            const poolData = pool.data()
+            const poolPlayers = poolData.users ? poolData.users.map(function (userId) {
+              return users[userId]
+            }) : []
+            return admin.firestore().collection('pools').doc(pool.id).set({ players: poolPlayers }, { merge: true }).then(function (res) {
+              return res
+            }).catch(function (e) {
+              return e
+            })
+          })
+
+          return Promise.all(promises).then(function (res) {
+            return response.send(JSON.stringify({
+              game,
+              users,
+              characterData
+            }, null, 3))
+          }).catch(function (e) {
+            return response.send(e)
+          })
+        })
+      }).catch(function (e) {
+        return e
+      })
+    })
+  }).catch(function (e) {
+    return e
+  })
+})
+
 function scoreBracket (bracket, game, characterData) {
   const { scoring: gameScoring } = game
   let score = 0

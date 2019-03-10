@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import { addUserToPool, calcPoolResults, createPoolAndAddUser, getPools } from './actions'
+import { addUserToPool, createPoolAndAddUser, getPools } from './actions'
 import './Pools.scss'
 import { selectPools } from './reducer'
 import PoolPanel from './components/PoolPanel'
@@ -72,10 +72,6 @@ class Pools extends Component {
     })
   }
 
-  handleExpand = pool => (event, expanded) => {
-    this.props.calcPoolResults(pool.id)
-  }
-
   render () {
     const {
       user,
@@ -133,7 +129,7 @@ class Pools extends Component {
         <div>
           {userPools && userPools.map((pool, i) => {
             return(
-              <PoolPanel pool={pool} copiedPools={copiedPools} onCopy={this.onCopy} key={`panel-${i}`} handleExpand={this.handleExpand} gameStarted={gameStarted} />
+              <PoolPanel pool={pool} copiedPools={copiedPools} onCopy={this.onCopy} key={`panel-${i}`} gameStarted={gameStarted} />
             )
           })}
         </div>
@@ -149,4 +145,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withStyles(styles)(connect(mapStateToProps, {getPools, addUserToPool, createPoolAndAddUser, calcPoolResults})(Pools))
+export default withStyles(styles)(connect(mapStateToProps, {getPools, addUserToPool, createPoolAndAddUser})(Pools))

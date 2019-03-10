@@ -3,7 +3,7 @@ import {
   ADD_USER_TO_POOL_REQUEST, ADD_USER_TO_POOL_SUCCESS,
   POOL_USERS_ERROR,
   POOL_USERS_REQUEST,
-  POOL_USERS_SUCCESS, RECORD_SCORES_ERROR, RECORD_SCORES_REQUEST, RECORD_SCORES_SUCCESS,
+  POOL_USERS_SUCCESS,
   USER_POOLS_ERROR,
   USER_POOLS_REQUEST,
   USER_POOLS_SUCCESS
@@ -12,6 +12,7 @@ import { USER_SIGN_OUT_SUCCESS } from '../../models/user/consts'
 import isEmpty from 'lodash/isEmpty'
 import sortBy from 'lodash/sortBy'
 import { CLEAR_ERRORS } from '../../components/Error'
+import { rankPlayers } from '../../utils/rankPlayers'
 
 export default function pools (state = { error: false }, action) {
   switch (action.type) {
@@ -78,30 +79,6 @@ export default function pools (state = { error: false }, action) {
         ...state,
         pools: []
       }
-    case RECORD_SCORES_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
-        error: false
-      }
-    case RECORD_SCORES_SUCCESS:
-      return {
-        ...state,
-        pools: state.pools.map(pool => {
-          if (pool.id === action.poolId) {
-            pool.players = organizePoolPlayers(pool.players)
-          }
-          return pool
-        }),
-        isLoading: false,
-        error: false
-      }
-    case RECORD_SCORES_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error
-      }
     case ADD_USER_TO_POOL_REQUEST:
       return {
         ...state,
@@ -131,7 +108,8 @@ export default function pools (state = { error: false }, action) {
 }
 
 const organizePoolPlayers = (poolPlayers) => {
-  let sortedPlayers = sortBy(poolPlayers, 'rank')
+  let ranked = rankPlayers(poolPlayers)
+  let sortedPlayers = sortBy(ranked, 'rank')
   return sortedPlayers || poolPlayers
 }
 
