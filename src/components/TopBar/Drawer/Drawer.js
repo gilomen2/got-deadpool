@@ -4,6 +4,7 @@ import Dragonglass from '../../../images/dragonglass-small.jpg'
 import { withStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import NavLinks from './NavLinks'
+import SwipeableDrawerWrapper from './SwipeableDrawerWrapper'
 
 const drawerWidth = 240
 
@@ -35,8 +36,7 @@ class ResponsiveDrawer extends Component {
     return (
       <Media query={'(max-width: 768px)'}>
         {matches =>
-          matches ? (
-            <p />
+          matches ? (<SwipeableDrawerWrapper user={user} />
           ) : (
             <Drawer key={'drawer'}
               className={classes.drawer}
