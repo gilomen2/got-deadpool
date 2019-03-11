@@ -38,3 +38,10 @@
 .edit-button {
   margin-left: 10px !important;
 }
+
+.character-wrapper {
+  display: flex;
+  .skull-icon {
+    width: 35px;
+  }
+}

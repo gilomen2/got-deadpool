@@ -4,7 +4,7 @@ import { dbRef } from '../../firebaseConfig'
 export const getGame = () => (dispatch, getState) => {
   dispatch({ type: GAME_REQUEST })
   const collection = dbRef.collection('game')
-  collection.doc('test1').get().then(res => {
+  collection.doc('master').get().then(res => {
     dispatch({
       type: GAME_SUCCESS,
       payload: res.data()

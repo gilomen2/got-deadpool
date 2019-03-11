@@ -18,8 +18,7 @@ export const getEmptyBracket = () => (dispatch, getState) => {
         type: EMPTY_BRACKET_REQUEST
       })
 
-      // const collection = dbRef.collection('characters')
-      const collection = dbRef.collection('test-characters')
+      const collection = dbRef.collection('characters')
 
       collection.get().then(snapshot => {
         dispatch({

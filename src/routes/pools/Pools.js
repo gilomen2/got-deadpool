@@ -8,8 +8,6 @@ import './Pools.scss'
 import { selectPools } from './reducer'
 import PoolPanel from './components/PoolPanel'
 import { selectGameStatus } from '../../models/game/reducer'
-import { withMedia } from '../../utils/withMediaQuery'
-import { queries } from '../../styles/mediaQueries'
 
 const styles = theme => ({
   textField: {

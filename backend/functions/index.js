@@ -26,6 +26,7 @@ exports.scorePools = functions.runWith(runtimeOpts).https.onRequest(function (re
           const userData = user.data()
           users[user.id] = userData
           users[user.id].score = scoreBracket(userData.bracket, game, characterData)
+          users[user.id].id = user.id
         })
 
         return admin.firestore().collection('pools').get().then(function (poolsSnapshot) {
@@ -76,6 +77,7 @@ exports.scoreTestGamePools = functions.runWith(runtimeOpts).https.onRequest(func
           const userData = user.data()
           users[user.id] = userData
           users[user.id].score = scoreBracket(userData.bracket, game, characterData)
+          users[user.id].id = user.id
         })
 
         return admin.firestore().collection('pools').get().then(function (poolsSnapshot) {

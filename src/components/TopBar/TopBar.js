@@ -64,7 +64,7 @@ class TopBar extends Component {
     const { classes, user } = this.props
     return (
       [
-        <Media query={'(max-width: 768px)'}>
+        <Media query={'(max-width: 768px)'} key={'AppBar'}>
           {matches =>
             matches ? (
               <AppBar key={'app-bar'} position='fixed' className={classes.appBarMobile}>
@@ -101,7 +101,7 @@ class TopBar extends Component {
               </AppBar>
           )}
         </Media>,
-        <ResponsiveDrawer user={user} open={open} handleClose={this.toggleDrawer} />
+        <ResponsiveDrawer user={user} open={open} handleClose={this.toggleDrawer} key={'Drawer'} />
       ]
     )
   }
