@@ -31,7 +31,7 @@ class Home extends Component {
                 Read the Rules
                 </Button>
               </Link>
-              {!user
+              {user
                 ? <Link to={'/pools'}>
                   <Button size='large' variant='outlined' color='secondary'>
                       Join a Pool
