@@ -7,6 +7,7 @@ import { selectGameStatus } from '../../models/game/reducer'
 class Home extends Component {
   render () {
     const {
+      media,
       history,
       user,
       gameLoaded,
@@ -17,7 +18,7 @@ class Home extends Component {
       <div>
         {gameLoaded && !gameStarted &&
           <div>
-            <Steps history={history} />
+            <Steps media={media} history={history} />
             <h2>How It Works</h2>
             <h4>Sign Up</h4>
             <p>Login with a Google account to create an account.</p>

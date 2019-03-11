@@ -61,6 +61,7 @@ export const addUserToPool = (poolId) => (dispatch, getState) => {
     dispatch({
       type: ADD_USER_TO_POOL_SUCCESS
     })
+    window.ga('send', 'event', 'Pools', 'add-user-to-pool')
     dispatch(getPools())
   }).catch(e => {
     dispatch({
@@ -112,6 +113,7 @@ export const createPoolAndAddUser = (poolName) => (dispatch, getState) => {
     dispatch({
       type: CREATE_POOL_SUCCESS
     })
+    window.ga('send', 'event', 'Pools', 'create-pool')
     dispatch(getPools())
   }).catch(e => {
     dispatch({

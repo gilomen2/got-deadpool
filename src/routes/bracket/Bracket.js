@@ -50,7 +50,10 @@ class Bracket extends Component {
     e.preventDefault()
     this.setState({
       editable: false
-    }, () => this.props.saveUserBracket(this.state.characterBracket))
+    }, () => {
+      this.props.saveUserBracket(this.state.characterBracket)
+      window.ga('send', 'event', 'Bracket', 'save-bracket')
+    })
 
   }
 
@@ -77,7 +80,10 @@ class Bracket extends Component {
           }
 
           {(!editable && !gameStarted) &&
-          <Button variant="outlined" color="primary" onClick={() => this.setState({ editable: true })}>
+          <Button variant="outlined" color="primary" onClick={() => {
+            this.setState({ editable: true })
+            window.ga('send', 'event', 'Bracket', 'edit-bracket')
+          }}>
             Edit
           </Button>}
         </form>

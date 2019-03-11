@@ -9,7 +9,7 @@ import Bracket from './routes/bracket/Bracket'
 import { PrivateRoute } from './components/PrivateRoute'
 import { selectUser } from './models/user/reducer'
 import { Storage, storageKey } from './utils/storage'
-import {Route} from 'react-router-dom'
+import { Route, withRouter } from 'react-router-dom'
 import Home from './routes/home/Home'
 import { getGame } from './models/game/actions'
 import { selectGameLoaded } from './models/game/reducer'
@@ -78,9 +78,9 @@ class App extends Component {
           <div className='toolbar' />
           <div className='app-container'>
             <div className='content-container'>
-            <Route exact path='/' render={()=> <Home user={user} gameLoaded={gameLoaded} />} />
-              <PrivateRoute exact path='/pools' user={storageUser || user} location={location} render={() => <Pools location={location} user={user} media={media} gameLoaded={gameLoaded} />} />
-              <PrivateRoute exact path='/bracket' user={storageUser || user} location={location} render={() => <Bracket location={location} user={user} gameLoaded={gameLoaded} />} />
+            <Route exact path='/' render={(props)=> <Home user={user} gameLoaded={gameLoaded} media={media} {...props} />} />
+              <PrivateRoute exact path='/pools' user={storageUser || user} location={location} render={(props) => <Pools location={location} user={user} media={media} gameLoaded={gameLoaded} {...props} />} />
+              <PrivateRoute exact path='/bracket' user={storageUser || user} location={location} render={(props)=> <Bracket location={location} user={user} gameLoaded={gameLoaded} {...props} />} />
             </div>
           </div>
         </div>
@@ -98,4 +98,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withMedia(connect(mapStateToProps, { fetchUser, getGame, clearErrors, getUserBracket, getPools })(App), queries)
+export default withMedia(withRouter(connect(mapStateToProps, { fetchUser, getGame, clearErrors, getUserBracket, getPools })(App)), queries)

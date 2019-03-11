@@ -7,8 +7,6 @@ import { selectUser } from '../../models/user/reducer'
 import { selectPools } from '../pools/reducer'
 import { selectUserBracket } from '../bracket/reducer'
 import { signIn } from '../../models/user/actions'
-import { withMedia } from '../../utils/withMediaQuery'
-import {queries} from '../../styles/mediaQueries'
 
 class Steps extends Component {
 
@@ -114,4 +112,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default withMedia(connect(mapStateToProps, {signIn})(Steps), queries)
+export default connect(mapStateToProps, {signIn})(Steps)
