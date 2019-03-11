@@ -21,20 +21,20 @@ export const PoolPlayersPreGame = ({ poolPlayers, poolId }) => {
   )
 }
 
-export const PoolPlayers = ({ poolPlayers, poolId }) => {
+export const PoolPlayers = ({ poolPlayers, poolId, media }) => {
   return (
     <div className={'pool-players-list full-width'}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell />
-            <TableCell align='center'>Player</TableCell>
-            <TableCell align='center'>Score</TableCell>
+            <TableCell padding={media.mobile ? 'none' : 'default'} />
+            <TableCell padding={media.mobile ? 'none' : 'default'} align='center'>Player</TableCell>
+            <TableCell padding={media.mobile ? 'none' : 'default'} align='center'>Score</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {poolPlayers.map((player) => {
-            return <PoolPlayer photoUrl={player.photoURL} displayName={player.displayName} key={`pool-player-${player.id}-${poolId}`} score={player.score} rank={player.rank} />
+            return <PoolPlayer media={media} photoUrl={player.photoURL} displayName={player.displayName} key={`pool-player-${player.id}-${poolId}`} score={player.score} rank={player.rank} />
           })}
         </TableBody>
       </Table>
@@ -42,17 +42,19 @@ export const PoolPlayers = ({ poolPlayers, poolId }) => {
   )
 }
 
-const PoolPlayer = ({ photoUrl, displayName, score, rank }) => {
+const PoolPlayer = ({ photoUrl, displayName, score, rank, media }) => {
   return (
     <TableRow>
-      <TableCell align='center'>{rank}</TableCell>
-      <TableCell align='center'>
-        <div className='avatar-wrapper'>
-          <Avatar alt={displayName} src={photoUrl} />
-          <span>{displayName}</span>
+      <TableCell padding={media.mobile ? 'none' : 'default'} align='center'>{rank}</TableCell>
+      <TableCell padding={media.mobile ? 'none' : 'default'} align='center'>
+        <div className={'player-content'}>
+          <div className='avatar-wrapper'>
+            <Avatar alt={displayName} src={photoUrl} />
+            <span>{displayName}</span>
+          </div>
         </div>
       </TableCell>
-      <TableCell align='center'>{score}</TableCell>
+      <TableCell padding={media.mobile ? 'none' : 'default'} align='center'>{score}</TableCell>
     </TableRow>
   )
 }

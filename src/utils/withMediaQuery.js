@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {Component} from 'react'
 
 export const withMedia = (Comp, queries) => {
   const media = createMediaListener(queries);
 
-  return class WithMedia extends React.Component {
+  return class WithMedia extends Component {
     state = {
       media: media.getState()
     };

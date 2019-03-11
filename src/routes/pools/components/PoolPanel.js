@@ -18,7 +18,7 @@ const styles = {
   }
 }
 
-const PoolPanel = ({ pool, copiedPools, onCopy, gameStarted, classes }) => {
+const PoolPanel = ({ pool, copiedPools, onCopy, gameStarted, classes, media }) => {
   return (
     <ExpansionPanel>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
@@ -28,7 +28,7 @@ const PoolPanel = ({ pool, copiedPools, onCopy, gameStarted, classes }) => {
         <div className={'pool-panel-wrapper'}>
           {
             pool.players && (
-              gameStarted ? <PoolPlayers poolPlayers={pool.players} poolId={pool.id} /> : <PoolPlayersPreGame poolPlayers={pool.players} poolId={pool.id} />
+              gameStarted ? <PoolPlayers media={media} poolPlayers={pool.players} poolId={pool.id} /> : <PoolPlayersPreGame poolPlayers={pool.players} poolId={pool.id} />
             )
           }
           {

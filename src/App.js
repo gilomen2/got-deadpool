@@ -19,6 +19,8 @@ import { selectBracketError, selectBracketLoading } from './routes/bracket/reduc
 import Errors, { clearErrors } from './components/Error'
 import { getUserBracket } from './routes/bracket/actions'
 import { getPools } from './routes/pools/actions'
+import { withMedia } from './utils/withMediaQuery'
+import { queries } from './styles/mediaQueries'
 
 class App extends Component {
   state = {
@@ -64,7 +66,7 @@ class App extends Component {
   }
 
   render () {
-    const { user, location, gameLoaded, isLoading, error, clearErrors } = this.props
+    const { user, location, gameLoaded, isLoading, error, clearErrors, media } = this.props
     const { storageUser } = this.state
     return (
       <div className='App'>
@@ -77,7 +79,7 @@ class App extends Component {
           <div className='app-container'>
             <div className='content-container'>
             <Route exact path='/' render={()=> <Home user={user} gameLoaded={gameLoaded} />} />
-              <PrivateRoute exact path='/pools' user={storageUser || user} location={location} render={() => <Pools location={location} user={user} gameLoaded={gameLoaded} />} />
+              <PrivateRoute exact path='/pools' user={storageUser || user} location={location} render={() => <Pools location={location} user={user} media={media} gameLoaded={gameLoaded} />} />
               <PrivateRoute exact path='/bracket' user={storageUser || user} location={location} render={() => <Bracket location={location} user={user} gameLoaded={gameLoaded} />} />
             </div>
           </div>
@@ -96,4 +98,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default (connect(mapStateToProps, { fetchUser, getGame, clearErrors, getUserBracket, getPools })(App))
+export default withMedia(connect(mapStateToProps, { fetchUser, getGame, clearErrors, getUserBracket, getPools })(App), queries)

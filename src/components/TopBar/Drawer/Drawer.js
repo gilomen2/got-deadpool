@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Media from 'react-media'
-import Dragonglass from '../../../images/dragonglass-small2.jpg'
 import { withStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import NavLinks from './NavLinks'
@@ -16,7 +15,7 @@ const styles = theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    background: `linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(127,126,128,0.39) 59%,rgba(84,82,85,0.46) 79%,rgba(38,36,39,1)), url(${Dragonglass}) center`,
+    background: `linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(127,126,128,0.39) 59%,rgba(84,82,85,0.46) 79%,rgba(38,36,39,1)), url('https://d3hlw4rqvr3ro4.cloudfront.net/dragonglass-small2.jpg') center`,
     backgroundSize: 'cover',
     overflow: 'hidden'
   },

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import { withStyles } from '@material-ui/core'
 import Dragonglass from '../../../images/dragonglass-small.jpg'
-import NavLinks from './NavLinks'
 
 const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent)
 const drawerWidth = 240

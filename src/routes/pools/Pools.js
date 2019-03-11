@@ -8,6 +8,8 @@ import './Pools.scss'
 import { selectPools } from './reducer'
 import PoolPanel from './components/PoolPanel'
 import { selectGameStatus } from '../../models/game/reducer'
+import { withMedia } from '../../utils/withMediaQuery'
+import { queries } from '../../styles/mediaQueries'
 
 const styles = theme => ({
   textField: {
@@ -79,7 +81,8 @@ class Pools extends Component {
       userPools,
       addUserToPool,
       createPoolAndAddUser,
-      gameStarted
+      gameStarted,
+      media
     } = this.props
     const {
       copiedPools
@@ -123,13 +126,10 @@ class Pools extends Component {
               </Button>
             </div>
           </div>}
-        {!user && <div>
-      Sign in to see pools
-        </div>}
         <div>
           {userPools && userPools.map((pool, i) => {
             return(
-              <PoolPanel pool={pool} copiedPools={copiedPools} onCopy={this.onCopy} key={`panel-${i}`} gameStarted={gameStarted} />
+              <PoolPanel media={media} pool={pool} copiedPools={copiedPools} onCopy={this.onCopy} key={`panel-${i}`} gameStarted={gameStarted} />
             )
           })}
         </div>

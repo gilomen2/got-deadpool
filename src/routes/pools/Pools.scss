@@ -42,12 +42,21 @@
     align-items: center;
   }
 }
-
-.avatar-wrapper {
+.player-content {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  span {
-    margin-top: 10px;
+  justify-content: center;
+  .avatar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0;
+    @media #{$mobile} {
+      max-width: 110px;
+    }
+    span {
+      overflow-wrap: break-word;
+      margin-top: 10px;
+      width: 100%;
+    }
   }
 }

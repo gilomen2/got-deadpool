@@ -8,10 +8,7 @@ import { selectPools } from '../pools/reducer'
 import { selectUserBracket } from '../bracket/reducer'
 import { signIn } from '../../models/user/actions'
 import { withMedia } from '../../utils/withMediaQuery'
-
-const queries = {
-  mobile: "(max-width: 768px)"
-}
+import {queries} from '../../styles/mediaQueries'
 
 class Steps extends Component {
 
