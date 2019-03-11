@@ -1,0 +1,35 @@
+@import "../../styles/mixins";
+
+.home {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  .home-content {
+    display: flex;
+    justify-content: center;
+    max-width: 65%;
+    align-self: center;
+    flex-direction: column;
+    .raven {
+      max-width: 100%;
+      height: auto;
+    }
+    .buttons {
+      justify-content: space-between;
+      display: flex;
+      width: 355px;
+      align-self: center;
+      a {
+        text-decoration: none;
+      }
+      @media #{$mobile} {
+        width: auto;
+        flex-direction: column;
+        button:first-child {
+          margin-bottom: 15px;
+        }
+      }
+    }
+  }
+}

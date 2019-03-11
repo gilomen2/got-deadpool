@@ -41,7 +41,7 @@ class NavLinks extends Component {
             }} className={classes.profileImage} />
           </div>
           <List classes={{ root: classes.navList }}>
-            <Link onClick={handleDrawerClose} to={'/'} className={classes.nav}>
+            <Link onClick={handleDrawerClose} to={'/rules'} className={classes.nav}>
               <ListItem button key={'Rules'}>
                 <ListItemText classes={{ primary: classes.nav }} primary={'Rules'}>Rules</ListItemText>
               </ListItem>
@@ -61,7 +61,7 @@ class NavLinks extends Component {
             </ListItem>
           </List>
         </div> : <List classes={{ root: classes.navList }}>
-          <Link onClick={handleDrawerClose} to={'/'} className={classes.nav}>
+          <Link onClick={handleDrawerClose} to={'/rules'} className={classes.nav}>
             <ListItem button key={'Rules'}>
               <ListItemText classes={{ primary: classes.nav }} primary={'Rules'} />
             </ListItem>

@@ -21,6 +21,7 @@ import { getUserBracket } from './routes/bracket/actions'
 import { getPools } from './routes/pools/actions'
 import { withMedia } from './utils/withMediaQuery'
 import { queries } from './styles/mediaQueries'
+import Rules from './routes/rules/Rules'
 
 class App extends Component {
   state = {
@@ -79,6 +80,7 @@ class App extends Component {
           <div className='app-container'>
             <div className='content-container'>
             <Route exact path='/' render={(props)=> <Home user={user} gameLoaded={gameLoaded} media={media} {...props} />} />
+              <Route exact path={'/rules'} render={(props) => <Rules user={user} gameLoaded={gameLoaded} media={media} {...props} />}/>
               <PrivateRoute exact path='/pools' user={storageUser || user} location={location} render={(props) => <Pools location={location} user={user} media={media} gameLoaded={gameLoaded} {...props} />} />
               <PrivateRoute exact path='/bracket' user={storageUser || user} location={location} render={(props)=> <Bracket location={location} user={user} gameLoaded={gameLoaded} {...props} />} />
             </div>
