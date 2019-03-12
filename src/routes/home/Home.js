@@ -24,7 +24,7 @@ class Home extends Component {
         <React.Fragment>
           <Steps media={media} history={history} />
           <div className={'home-content'}>
-            <img className={'raven'} src={'https://s3.us-east-2.amazonaws.com/got-deadpool/three-eyed-raven.png'} />
+            <img className={'raven'} src={'https://d3hlw4rqvr3ro4.cloudfront.net/three-eyed-raven.png'} />
             <div className={'buttons'}>
               <Link to={'/rules'}>
                 <Button size='large' variant='contained' color='primary'>
