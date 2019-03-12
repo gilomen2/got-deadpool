@@ -44,7 +44,7 @@ class Errors extends Component {
       handleClose
     } = this.props
     return (
-      <Modal open={error} onClose={handleClose}>
+      <Modal open={typeof error === 'string'} onClose={handleClose}>
         <div style={getModalStyle()} className={classes.paper}>
           {error}
         </div>
