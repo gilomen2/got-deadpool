@@ -64,14 +64,14 @@ class Character extends Component {
         {
           lastEpisodeAlive && lastEpisodeAlive > 0
             ? <div className={'icon'}>
-              <Skull aria-owns={skullOpen ? 'mouse-over-popover' : undefined}
+              <Skull aria-owns={skullOpen ? 'skull-popover' : undefined}
                      aria-haspopup="true"
                      onMouseEnter={(e) => this.handlePopoverOpen(e, 'skull')}
                      onMouseLeave={() => this.handlePopoverClose('skull')}
                      onClick={(e) => this.handlePopoverOpen(e, 'skull')}
               />
               <Popover
-                id='mouse-over-popover'
+                id='skull-popover'
                 className={classes.popover}
                 classes={{
                   paper: classes.paper
@@ -94,7 +94,7 @@ class Character extends Component {
             </div>
             : <div className={'icon'}>
                 <a href={wikiLink} target={'_blank'}>
-                  <IconButton aria-owns={whoIsThisOpen ? 'mouse-over-popover' : undefined}
+                  <IconButton aria-owns={whoIsThisOpen ? 'whoIsThis-popover' : undefined}
                               aria-haspopup="true"
                               onMouseEnter={(e) => this.handlePopoverOpen(e, 'whoIsThis')}
                               onMouseLeave={() => this.handlePopoverClose('whoIsThis')}
@@ -104,7 +104,7 @@ class Character extends Component {
                   </IconButton>
                 </a>
                 <Popover
-                  id='mouse-over-popover'
+                  id='whoIsThis-popover'
                   className={classes.popover}
                   classes={{
                     paper: classes.paper
