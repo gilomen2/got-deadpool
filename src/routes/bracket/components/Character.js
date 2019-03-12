@@ -5,6 +5,8 @@ import Select from '@material-ui/core/Select'
 import { ReactComponent as Skull } from '../../../components/Icons/skull.svg'
 import Popover from '@material-ui/core/Popover'
 import { withStyles } from '@material-ui/core/styles'
+import IconButton from '@material-ui/core/IconButton'
+import { Face } from '@material-ui/icons'
 
 const styles = theme => ({
   popover: {
@@ -18,21 +20,23 @@ const styles = theme => ({
 class Character extends Component {
 
   state = {
-    anchorEl: null,
+    skull: null,
+    whoIsThis: null
   };
 
-  handlePopoverOpen = event => {
-    this.setState({ anchorEl: event.currentTarget });
+  handlePopoverOpen = (event, el) => {
+    this.setState({ [el]: event.currentTarget })
   };
 
-  handlePopoverClose = () => {
-    this.setState({ anchorEl: null });
+  handlePopoverClose = (el) => {
+    this.setState({[el]: null})
   };
 
   render () {
-    const { anchorEl } = this.state;
-    const { name, handleChange, value, editable, lastEpisodeAlive, classes } = this.props
-    const open = Boolean(anchorEl);
+    const { skull, whoIsThis } = this.state;
+    const { name, handleChange, value, editable, lastEpisodeAlive, classes, wikiLink } = this.props
+    const skullOpen = Boolean(skull);
+    const whoIsThisOpen = Boolean(whoIsThis);
     return (
       <div className={'character-wrapper'}>
         <FormControl fullWidth required>
@@ -59,12 +63,12 @@ class Character extends Component {
         </FormControl>
         {
           lastEpisodeAlive && lastEpisodeAlive > 0
-            ? <div className={'skull-icon'}>
-              <Skull aria-owns={open ? 'mouse-over-popover' : undefined}
+            ? <div className={'icon'}>
+              <Skull aria-owns={skullOpen ? 'mouse-over-popover' : undefined}
                      aria-haspopup="true"
-                     onMouseEnter={this.handlePopoverOpen}
-                     onMouseLeave={this.handlePopoverClose}
-                     onClick={this.handlePopoverOpen}
+                     onMouseEnter={(e) => this.handlePopoverOpen(e, 'skull')}
+                     onMouseLeave={() => this.handlePopoverClose('skull')}
+                     onClick={(e) => this.handlePopoverOpen(e, 'skull')}
               />
               <Popover
                 id='mouse-over-popover'
@@ -72,8 +76,8 @@ class Character extends Component {
                 classes={{
                   paper: classes.paper
                 }}
-                open={open}
-                anchorEl={anchorEl}
+                open={skullOpen}
+                anchorEl={skull}
                 anchorOrigin={{
                   vertical: 'bottom',
                   horizontal: 'left'
@@ -82,13 +86,46 @@ class Character extends Component {
                   vertical: 'top',
                   horizontal: 'left'
                 }}
-                onClose={this.handlePopoverClose}
+                onClose={() => this.handlePopoverClose('skull')}
                 disableRestoreFocus
               >
                 Died in episode {lastEpisodeAlive}
               </Popover>
             </div>
-            : <div className={'skull-icon'} />
+            : <div className={'icon'}>
+                <a href={wikiLink} target={'_blank'}>
+                  <IconButton aria-owns={whoIsThisOpen ? 'mouse-over-popover' : undefined}
+                              aria-haspopup="true"
+                              onMouseEnter={(e) => this.handlePopoverOpen(e, 'whoIsThis')}
+                              onMouseLeave={() => this.handlePopoverClose('whoIsThis')}
+                              onClick={(e) => this.handlePopoverOpen(e, 'whoIsThis')}
+                    color="secondary" aria-label="Who is this?">
+                    <Face />
+                  </IconButton>
+                </a>
+                <Popover
+                  id='mouse-over-popover'
+                  className={classes.popover}
+                  classes={{
+                    paper: classes.paper
+                  }}
+                  open={whoIsThisOpen}
+                  anchorEl={whoIsThis}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left'
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left'
+                  }}
+                  onClose={() => this.handlePopoverClose('whoIsThis')}
+                  disableRestoreFocus
+                >
+                  Who is this?
+                </Popover>
+            </div>
+
         }
       </div>
     )
