@@ -55,19 +55,42 @@ export const addUserToPool = (poolId) => (dispatch, getState) => {
   const collection = dbRef.collection('pools')
   const userId = selectUser(getState()).uid
   const pool = collection.doc(`${poolId}`)
-  pool.update({
-    users: fbstore.FieldValue.arrayUnion(userId)
-  }).then((snapshot) => {
-    dispatch({
-      type: ADD_USER_TO_POOL_SUCCESS
-    })
-    window.ga('send', 'event', 'Pools', 'add-user-to-pool')
-    dispatch(getPools())
+  pool.get().then(poolRef => {
+    if (poolRef.exists) {
+      let poolData = poolRef.data()
+      if (poolData.users.length >= 50) {
+        throw new Error('The pool already has 50 members. Try creating a new pool.')
+      } else {
+        pool.update({
+          users: fbstore.FieldValue.arrayUnion(userId)
+        }).then((snapshot) => {
+          dispatch({
+            type: ADD_USER_TO_POOL_SUCCESS
+          })
+          window.ga('send', 'event', 'Pools', 'add-user-to-pool')
+          dispatch(getPools())
+        }).catch(e => {
+          dispatch({
+            type: ADD_USER_TO_POOL_ERROR,
+            error: e.message
+          })
+        })
+      }
+    } else {
+      throw new Error(`That pool doesn't exist. Double check the ID with the person who gave it to you.`)
+    }
   }).catch(e => {
-    dispatch({
-      type: ADD_USER_TO_POOL_ERROR,
-      error: e.message
-    })
+    if (e.name === 'FirebaseError') {
+      dispatch({
+        type: ADD_USER_TO_POOL_ERROR,
+        error: 'Something went wrong. Could not add the user to the pool.'
+      })
+    } else {
+      dispatch({
+        type: ADD_USER_TO_POOL_ERROR,
+        error: e.message
+      })
+    }
   })
 }
 
@@ -107,8 +130,7 @@ export const createPoolAndAddUser = (poolName) => (dispatch, getState) => {
     name: poolName,
     users: [
       userId
-    ],
-    game: dbRef.collection('game').doc('test1')
+    ]
   }).then(snapshot => {
     dispatch({
       type: CREATE_POOL_SUCCESS
