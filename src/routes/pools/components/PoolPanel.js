@@ -20,7 +20,9 @@ const styles = {
 
 const PoolPanel = ({ pool, copiedPools, onCopy, gameStarted, classes, media }) => {
   return (
-    <ExpansionPanel onChange={(e, expanded) => expanded ? window.ga('send', 'event', 'Pools', 'view-pool') : null}>
+    <ExpansionPanel onChange={(e, expanded) => expanded ? window.gtag('event', 'view-pool', {
+      'event-category': 'Pools'
+    }) : null}>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
         <Typography variant={'h5'}>{pool.name}</Typography>
       </ExpansionPanelSummary>

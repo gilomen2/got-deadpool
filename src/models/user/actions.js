@@ -21,7 +21,9 @@ export const fetchUser = () => dispatch => {
       })
       dispatch(createUser(user))
       Storage.setItem(storageKey, user)
-      window.ga('send', 'event', 'User', 'sign-in')
+      window.gtag('event', 'sign-in', {
+        'event_category': 'User'
+      })
     }
   })
 }

@@ -52,7 +52,7 @@ class Bracket extends Component {
       editable: false
     }, () => {
       this.props.saveUserBracket(this.state.characterBracket)
-      window.ga('send', 'event', 'Bracket', 'save-bracket')
+      window.gtag('event', 'save-bracket', {'event-category': 'Bracket'})
     })
 
   }
@@ -82,7 +82,9 @@ class Bracket extends Component {
           {(!editable && !gameStarted) &&
           <Button variant="outlined" color="primary" onClick={() => {
             this.setState({ editable: true })
-            window.ga('send', 'event', 'Bracket', 'edit-bracket')
+            window.gtag('event', 'edit-bracket', {
+              'event-category': 'Bracket'
+            })
           }}>
             Edit
           </Button>}
