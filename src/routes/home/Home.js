@@ -17,7 +17,6 @@ class Home extends Component {
       gameStarted,
       signIn
     } = this.props
-
     return (
       <div className={'home'}>
         {gameLoaded && !gameStarted &&
