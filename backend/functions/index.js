@@ -167,3 +167,16 @@ exports.copyPools = functions.https.onRequest(function (request, response) {
     return e
   })
 })
+
+exports.copyCharacters = functions.https.onRequest(function (request, response) {
+  return admin.firestore().collection('characters').get().then(function (charactersSnapshot) {
+    let copyOfCharacterData = {}
+    charactersSnapshot.docs.forEach(function (character) {
+      copyOfCharacterData[character.id] = character.data()
+    })
+
+    return response.send(copyOfCharacterData)
+  }).catch(function (e) {
+    return e
+  })
+})
