@@ -6,7 +6,7 @@ import {
   USER_BRACKET_SAVE_REQUEST,
   USER_BRACKET_SAVE_SUCCESS, USER_BRACKET_SUCCESS
 } from './consts'
-import { dbRef } from '../../firebaseConfig'
+import { dbRef } from '../../fbConfig'
 import { selectUser } from '../../models/user/reducer'
 import { organizeCharacters, selectInitialCharacters } from './reducer'
 

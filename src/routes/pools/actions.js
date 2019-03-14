@@ -1,4 +1,4 @@
-import { dbRef, fbstore } from '../../firebaseConfig'
+import { dbRef, fbstore } from '../../fbConfig'
 import { selectUser } from '../../models/user/reducer'
 import {
   ADD_USER_TO_POOL_ERROR,

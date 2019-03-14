@@ -1,5 +1,5 @@
 import { GAME_ERROR, GAME_REQUEST, GAME_SUCCESS } from './consts'
-import { dbRef } from '../../firebaseConfig'
+import { dbRef } from '../../fbConfig'
 
 export const getGame = () => (dispatch, getState) => {
   dispatch({ type: GAME_REQUEST })

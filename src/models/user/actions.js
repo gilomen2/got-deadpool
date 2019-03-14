@@ -9,7 +9,7 @@ import {
   USER_CREATE_SUCCESS,
   USER_CREATE_ERROR
 } from './consts'
-import { authRef, GoogleAuthProvider, dbRef } from '../../firebaseConfig'
+import { authRef, GoogleAuthProvider, dbRef } from '../../fbConfig'
 import { Storage, storageKey } from '../../utils/storage'
 
 export const fetchUser = () => dispatch => {
