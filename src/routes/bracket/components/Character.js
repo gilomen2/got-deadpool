@@ -7,6 +7,7 @@ import Popover from '@material-ui/core/Popover'
 import { withStyles } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import { Face } from '@material-ui/icons'
+import { nightKingBackout } from '../../../utils/nightKingFix'
 
 const styles = theme => ({
   popover: {
@@ -44,7 +45,7 @@ class Character extends Component {
           <Select
             native
             value={value}
-            onChange={handleChange(`${name}`)}
+            onChange={handleChange(`${nightKingBackout(name)}`)}
             name={`${name}`}
             inputProps={{
               id: `${name}`

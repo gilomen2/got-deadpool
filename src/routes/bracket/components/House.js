@@ -1,5 +1,6 @@
 import React from 'react'
 import Character from './Character'
+import { nightKingFix } from '../../../utils/nightKingFix'
 
 export const House = ({ houseName, house, handleChange, characterBracket, editable }) => {
   return (
@@ -10,7 +11,7 @@ export const House = ({ houseName, house, handleChange, characterBracket, editab
       <div className={'house-members'}>
         {house.length && house.map(character => {
           return (
-            <Character key={`${character.name}`} lastEpisodeAlive={character.lastEpisodeAlive} editable={editable} name={character.name} wikiLink={character.wikiLink} handleChange={handleChange} value={characterBracket[`${character.name}`] ? characterBracket[`${character.name}`] : ''} />
+            <Character key={`${character.name}`} lastEpisodeAlive={character.lastEpisodeAlive} editable={editable} name={nightKingFix(character.name)} wikiLink={character.wikiLink} handleChange={handleChange} value={characterBracket[`${character.name}`] ? characterBracket[`${character.name}`] : ''} />
           )
         })}
       </div>
