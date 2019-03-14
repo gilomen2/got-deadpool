@@ -2,7 +2,7 @@ import {
   EMPTY_BRACKET_ERROR,
   EMPTY_BRACKET_REQUEST,
   EMPTY_BRACKET_SUCCESS, USER_BRACKET_ERROR,
-  USER_BRACKET_REQUEST,
+  USER_BRACKET_REQUEST, USER_BRACKET_SAVE_ERROR, USER_BRACKET_SAVE_REQUEST, USER_BRACKET_SAVE_SUCCESS,
   USER_BRACKET_SUCCESS
 } from './consts'
 import { POOL_USERS_SUCCESS } from '../pools/consts'
@@ -64,6 +64,24 @@ export default function bracket (state = { error: false }, action) {
       return {
         ...state,
         userBracket: undefined
+      }
+    case USER_BRACKET_SAVE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: false
+      }
+    case USER_BRACKET_SAVE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: false
+      }
+    case USER_BRACKET_SAVE_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.error
       }
     default:
       return state
