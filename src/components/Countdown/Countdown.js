@@ -20,7 +20,7 @@ const CountdownRender = ({ days, hours, minutes, seconds, completed }) => {
 }
 
 export const CountdownTimer = () => (
-  <Countdown renderer={CountdownRender} zeroPadTime={2} date={new Date('2019-04-14')}>
+  <Countdown renderer={CountdownRender} zeroPadTime={2} date={new Date('2019-04-14 20:00:00')}>
     <Completionist />
   </Countdown>
 )
