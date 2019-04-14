@@ -30,6 +30,12 @@ class Rules extends Component {
             <p>Brackets are loosely organized by house affiliation at the end of season 7. I said LOOSELY.</p>
           </div>
         }
+        {gameLoaded && gameStarted &&
+          <React.Fragment>
+            <h1>The Game Has Begun</h1>
+            <p>Sorry, but it's too late to fill out your bracket if you haven't already. Come back each Monday to see how you rank against others in your pool!</p>
+          </React.Fragment>
+        }
         <h2>These are the Rules, don't @ me</h2>
         <h3>Scoring</h3>
         <p>Points will be calculated for each member of your pool after each episode.</p>
