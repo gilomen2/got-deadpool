@@ -35,7 +35,7 @@ class Character extends Component {
 
   render () {
     const { skull, whoIsThis } = this.state;
-    const { name, handleChange, value, editable, lastEpisodeAlive, classes, wikiLink } = this.props
+    const { name, handleChange, value, editable, lastEpisodeAlive, classes, wikiLink, showIcon = true } = this.props
     const skullOpen = Boolean(skull);
     const whoIsThisOpen = Boolean(whoIsThis);
     return (
@@ -63,8 +63,8 @@ class Character extends Component {
           </Select>
         </FormControl>
         {
-          lastEpisodeAlive && lastEpisodeAlive > 0
-            ? <div className={'icon'}>
+          (lastEpisodeAlive && lastEpisodeAlive > 0 && showIcon)
+            && <div className={'icon'}>
               <Skull aria-owns={skullOpen ? 'skull-popover' : undefined}
                      aria-haspopup="true"
                      onMouseEnter={(e) => this.handlePopoverOpen(e, 'skull')}
@@ -93,7 +93,8 @@ class Character extends Component {
                 Died in episode {lastEpisodeAlive}
               </Popover>
             </div>
-            : <div className={'icon'}>
+        }
+        {(showIcon && !lastEpisodeAlive) && <div className={'icon'}>
                 <a href={wikiLink} target={'_blank'}>
                   <IconButton aria-owns={whoIsThisOpen ? 'whoIsThis-popover' : undefined}
                               aria-haspopup="true"

@@ -1,0 +1,8 @@
+.compare-bracket {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 30px;
+  .character {
+    margin: 20px 0px;
+  }
+}

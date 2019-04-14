@@ -18,7 +18,7 @@ const styles = {
   }
 }
 
-const PoolPanel = ({ pool, copiedPools, onCopy, gameStarted, classes, media }) => {
+const PoolPanel = ({ userBracket, pool, user, copiedPools, onCopy, gameStarted, classes, media }) => {
   return (
     <ExpansionPanel onChange={(e, expanded) => expanded ? window.gtag('event', 'view-pool', {
       'event-category': 'Pools'
@@ -30,7 +30,7 @@ const PoolPanel = ({ pool, copiedPools, onCopy, gameStarted, classes, media }) =
         <div className={'pool-panel-wrapper'}>
           {
             pool.players && (
-              gameStarted ? <PoolPlayers media={media} poolPlayers={pool.players} poolId={pool.id} /> : <PoolPlayersPreGame poolPlayers={pool.players} poolId={pool.id} />
+              gameStarted ? <PoolPlayers userBracket={userBracket} user={user} media={media} poolPlayers={pool.players} poolId={pool.id} /> : <PoolPlayersPreGame poolPlayers={pool.players} poolId={pool.id} />
             )
           }
           {
