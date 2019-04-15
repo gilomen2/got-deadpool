@@ -32,8 +32,8 @@ class Rules extends Component {
         }
         {gameLoaded && gameStarted &&
           <React.Fragment>
-            <h1>The Game Has Begun</h1>
-            <p>Sorry, but it's too late to fill out your bracket if you haven't already. Come back each Monday to see how you rank against others in your pool!</p>
+            <h1>Week 1 Scoring</h1>
+            <p>No one on the bracket died in episode 1, so everyone is starting out with an equal score and rank. Check back next week to see how things progress!</p>
           </React.Fragment>
         }
         <h2>These are the Rules, don't @ me</h2>
