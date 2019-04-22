@@ -33,7 +33,7 @@ class Rules extends Component {
         {gameLoaded && gameStarted &&
           <React.Fragment>
             <h1>Week 2 Scoring</h1>
-            <p>Another "no die" week! Check back next week to see how things progress!</p>
+            <p>Another "no die" week! Check back next week to see how things progress. Also, new feature: you can now compare your bracket with other users in your pool. Go check it out from the pools page!</p>
           </React.Fragment>
         }
         <h2>These are the Rules, don't @ me</h2>
