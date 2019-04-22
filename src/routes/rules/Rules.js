@@ -32,8 +32,8 @@ class Rules extends Component {
         }
         {gameLoaded && gameStarted &&
           <React.Fragment>
-            <h1>Week 1 Scoring</h1>
-            <p>No one on the bracket died in episode 1, so everyone is starting out with an equal score and rank. Check back next week to see how things progress!</p>
+            <h1>Week 2 Scoring</h1>
+            <p>Another "no die" week! Check back next week to see how things progress!</p>
           </React.Fragment>
         }
         <h2>These are the Rules, don't @ me</h2>
