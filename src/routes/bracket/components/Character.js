@@ -15,6 +15,9 @@ const styles = theme => ({
   },
   paper: {
     padding: '5px'
+  },
+  selectIcon: {
+    display: 'none'
   }
 });
 
@@ -51,6 +54,9 @@ class Character extends Component {
               id: `${name}`
             }}
             disabled={!editable}
+            classes={{
+              icon: !editable && classes.selectIcon
+            }}
           >
             <option value='' />
             <option value={1}>Episode 1</option>
