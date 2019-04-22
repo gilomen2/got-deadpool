@@ -8,7 +8,7 @@ import {
 } from './consts'
 import { dbRef } from '../../fbConfig'
 import { selectUser } from '../../models/user/reducer'
-import { organizeCharacters, selectInitialCharacters } from './reducer'
+import { organizeCharacters, selectInitialCharacters, selectUserBracket } from './reducer'
 
 export const getEmptyBracket = () => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
@@ -50,24 +50,28 @@ export const getEmptyBracket = () => (dispatch, getState) => {
 }
 
 export const getUserBracket = () => (dispatch, getState) => {
-  const user = selectUser(getState())
-  const collection = dbRef.collection('users')
+  const userBracket = selectUserBracket(getState())
 
-  dispatch({
-    type: USER_BRACKET_REQUEST
-  })
+  if (!userBracket) {
+    const user = selectUser(getState())
+    const collection = dbRef.collection('users')
 
-  collection.doc(`${user.uid}`).get().then(snapshot => {
     dispatch({
-      type: USER_BRACKET_SUCCESS,
-      payload: snapshot.data().bracket
+      type: USER_BRACKET_REQUEST
     })
-  }).catch(e => {
-    dispatch({
-      type: USER_BRACKET_ERROR,
-      error: e
+
+    collection.doc(`${user.uid}`).get().then(snapshot => {
+      dispatch({
+        type: USER_BRACKET_SUCCESS,
+        payload: snapshot.data().bracket
+      })
+    }).catch(e => {
+      dispatch({
+        type: USER_BRACKET_ERROR,
+        error: e
+      })
     })
-  })
+  }
 }
 
 export const saveUserBracket = (characterBracket) => (dispatch, getState) => {

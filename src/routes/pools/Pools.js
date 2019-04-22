@@ -8,6 +8,7 @@ import './Pools.scss'
 import { selectPools } from './reducer'
 import PoolPanel from './components/PoolPanel'
 import { selectGameStatus } from '../../models/game/reducer'
+import { selectUserBracket } from '../bracket/reducer'
 
 const styles = theme => ({
   textField: {
@@ -77,6 +78,7 @@ class Pools extends Component {
       user,
       classes,
       userPools,
+      userBracket,
       addUserToPool,
       createPoolAndAddUser,
       gameStarted,
@@ -127,7 +129,7 @@ class Pools extends Component {
         <div>
           {userPools && userPools.map((pool, i) => {
             return(
-              <PoolPanel media={media} pool={pool} copiedPools={copiedPools} onCopy={this.onCopy} key={`panel-${i}`} gameStarted={gameStarted} />
+              <PoolPanel userBracket={userBracket} user={user} media={media} pool={pool} copiedPools={copiedPools} onCopy={this.onCopy} key={`panel-${i}`} gameStarted={gameStarted} />
             )
           })}
         </div>
@@ -139,7 +141,8 @@ class Pools extends Component {
 const mapStateToProps = (state) => {
   return {
     userPools: selectPools(state),
-    gameStarted: selectGameStatus(state)
+    gameStarted: selectGameStatus(state),
+    userBracket: selectUserBracket(state)
   }
 }
 

@@ -10,6 +10,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import { Link } from 'react-router-dom'
 
 export const PoolPlayersPreGame = ({ poolPlayers, poolId }) => {
   return (
@@ -21,7 +22,7 @@ export const PoolPlayersPreGame = ({ poolPlayers, poolId }) => {
   )
 }
 
-export const PoolPlayers = ({ poolPlayers, poolId, media }) => {
+export const PoolPlayers = ({ userBracket, user, poolPlayers, poolId, media }) => {
   return (
     <div className={'pool-players-list full-width'}>
       <Table>
@@ -30,11 +31,13 @@ export const PoolPlayers = ({ poolPlayers, poolId, media }) => {
             <TableCell padding={media.mobile ? 'none' : 'default'} />
             <TableCell padding={media.mobile ? 'none' : 'default'} align='center'>Player</TableCell>
             <TableCell padding={media.mobile ? 'none' : 'default'} align='center'>Score</TableCell>
+            {userBracket && <TableCell padding={media.mobile ? 'none' : 'default'} align='center'>Compare</TableCell>
+            }
           </TableRow>
         </TableHead>
         <TableBody>
           {poolPlayers.map((player) => {
-            return <PoolPlayer media={media} photoUrl={player.photoURL} displayName={player.displayName} key={`pool-player-${player.id}-${poolId}`} score={player.score} rank={player.rank} />
+            return <PoolPlayer userBracket={userBracket} playerId={player.id} user={user} media={media} photoUrl={player.photoURL} displayName={player.displayName} key={`pool-player-${player.id}-${poolId}`} score={player.score} rank={player.rank} />
           })}
         </TableBody>
       </Table>
@@ -42,7 +45,7 @@ export const PoolPlayers = ({ poolPlayers, poolId, media }) => {
   )
 }
 
-const PoolPlayer = ({ photoUrl, displayName, score, rank, media }) => {
+const PoolPlayer = ({ userBracket, playerId, user, photoUrl, displayName, score, rank, media }) => {
   return (
     <TableRow>
       <TableCell padding={media.mobile ? 'none' : 'default'} align='center'>{rank}</TableCell>
@@ -55,6 +58,7 @@ const PoolPlayer = ({ photoUrl, displayName, score, rank, media }) => {
         </div>
       </TableCell>
       <TableCell padding={media.mobile ? 'none' : 'default'} align='center'>{score}</TableCell>
+      {userBracket && <TableCell align='center'>{playerId !== user.uid && <Link to={`/compare-bracket/${playerId}`}>Compare Brackets</Link>}</TableCell>}
     </TableRow>
   )
 }

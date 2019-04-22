@@ -10,7 +10,6 @@ import { PrivateRoute } from './components/PrivateRoute'
 import { selectUser } from './models/user/reducer'
 import { Storage, storageKey } from './utils/storage'
 import { Route, withRouter } from 'react-router-dom'
-import Home from './routes/home/Home'
 import { getGame } from './models/game/actions'
 import { selectGameLoaded } from './models/game/reducer'
 import { Loader } from './components/Loader/Loader'
@@ -22,6 +21,8 @@ import { getPools } from './routes/pools/actions'
 import { withMedia } from './utils/withMediaQuery'
 import { queries } from './styles/mediaQueries'
 import Rules from './routes/rules/Rules'
+import CompareBracket from './routes/compare-bracket/CompareBracket'
+import { selectCompareBracketError, selectCompareBracketLoading } from './routes/compare-bracket/reducer'
 
 class App extends Component {
   state = {
@@ -79,10 +80,11 @@ class App extends Component {
           <div className='toolbar' />
           <div className='app-container'>
             <div className='content-container'>
-            <Route exact path='/' render={(props)=> <Rules user={user} gameLoaded={gameLoaded} media={media} {...props} />} />
+              <Route exact path='/' render={(props)=> <Rules user={user} gameLoaded={gameLoaded} media={media} {...props} />} />
               <Route exact path={'/rules'} render={(props) => <Rules user={user} gameLoaded={gameLoaded} media={media} {...props} />}/>
               <PrivateRoute exact path='/pools' user={storageUser || user} location={location} render={(props) => <Pools location={location} user={user} media={media} gameLoaded={gameLoaded} {...props} />} />
               <PrivateRoute exact path='/bracket' user={storageUser || user} location={location} render={(props)=> <Bracket location={location} user={user} gameLoaded={gameLoaded} {...props} />} />
+              <Route path='/compare-bracket/:compareId' render={(props)=> <CompareBracket location={location} user={user} gameLoaded={gameLoaded} {...props} />} />
             </div>
           </div>
         </div>
@@ -95,8 +97,8 @@ const mapStateToProps = (state) => {
   return {
     user: selectUser(state),
     gameLoaded: selectGameLoaded(state),
-    isLoading: selectPoolsLoading(state) || selectBracketLoading(state),
-    error: selectPoolsError(state) || selectBracketError(state)
+    isLoading: selectPoolsLoading(state) || selectBracketLoading(state) || selectCompareBracketLoading(state),
+    error: selectPoolsError(state) || selectBracketError(state) || selectCompareBracketError(state)
   }
 }
 

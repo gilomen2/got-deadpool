@@ -24,8 +24,15 @@ class Bracket extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if(nextProps.gameStarted) {
-      return {
-        editable: false
+      if(nextProps.userBracket) {
+        return {
+          characterBracket: nextProps.userBracket,
+          editable: false
+        }
+      } else {
+        return {
+          editable: false
+        }
       }
     } else if(isEmpty(prevState.characterBracket) && nextProps.userBracket) {
       return {
