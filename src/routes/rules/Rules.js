@@ -34,8 +34,8 @@ class Rules extends Component {
           <React.Fragment>
             <h1>A big, huge whoops</h1>
             <p>A vigilant user brought it to my attention that scores appeared not to match the scoring system below. It turns out my scoring function had a bug, which has now been fixed. All users have been rescored, so your score may have changed from the last time you viewed it. Sorry! This is why writing unit tests is important...and I didn't do that.</p>
-            <h2>Week 4 Scoring</h2>
-            <p>Wow. Did not see that one coming. Also, new feature: you can now compare your bracket with other users in your pool. Go check it out from the pools page!</p>
+            <h1>Week 5 Scoring</h1>
+            <p>Scores available now!</p>
           </React.Fragment>
         }
         <h2>These are the Rules, don't @ me</h2>
