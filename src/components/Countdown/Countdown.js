@@ -7,13 +7,13 @@ const Completionist = () => <span />
 const CountdownRender = ({ days, hours, minutes, seconds, completed }) => {
   return (
     <div className={'countdown-container'}>
-        Week 3 Scores Available Now!
+        Week 4 Scores Available Now!
     </div>
   )
 }
 
 export const CountdownTimer = () => (
   <div className={'countdown-container'}>
-    Week 3 Scores Available Now!
+    Week 4 Scores Available Now!
   </div>
 )

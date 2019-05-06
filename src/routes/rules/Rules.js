@@ -32,8 +32,8 @@ class Rules extends Component {
         }
         {gameLoaded && gameStarted &&
           <React.Fragment>
-            <h1>Week 3 Scoring</h1>
-            <p>WOOO! We in it now, folks! We finally have some scores and rankings. Also, new feature: you can now compare your bracket with other users in your pool. Go check it out from the pools page!</p>
+            <h1>Week 4 Scoring</h1>
+            <p>Wow. Did not see that one coming. Also, new feature: you can now compare your bracket with other users in your pool. Go check it out from the pools page!</p>
           </React.Fragment>
         }
         <h2>These are the Rules, don't @ me</h2>
