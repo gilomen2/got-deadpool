@@ -34,7 +34,7 @@ class Rules extends Component {
           <React.Fragment>
             <h1>A big, huge whoops</h1>
             <p>A vigilant user brought it to my attention that scores appeared not to match the scoring system below. It turns out my scoring function had a bug, which has now been fixed. All users have been rescored, so your score may have changed from the last time you viewed it. Sorry! This is why writing unit tests is important...and I didn't do that.</p>
-            <h1>Week 5 Scoring</h1>
+            <h2>Week 5 Scoring</h2>
             <p>Scores available now!</p>
           </React.Fragment>
         }
