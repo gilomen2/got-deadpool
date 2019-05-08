@@ -119,7 +119,7 @@ function scoreBracket (bracket, game, characterData) {
     Object.keys(bracket).forEach(function (characterName) {
       let characterStatus = characterData[characterName]
 
-      let characterPrediction = bracket[characterName]
+      let characterPrediction = Number(bracket[characterName])
       if (characterStatus && characterStatus.lastEpisodeAlive) {
         const diff = Math.abs(characterStatus.lastEpisodeAlive - characterPrediction)
         if (characterStatus.lastEpisodeAlive === 0) {
@@ -128,6 +128,8 @@ function scoreBracket (bracket, game, characterData) {
           } else {
             score += gameScoring.episodeDeath.survives
           }
+        } else if (characterPrediction === 0) {
+          score += gameScoring.survivor.incorrect
         } else {
           if (diff > 3) {
             score += gameScoring.episodeDeath.offByMore
