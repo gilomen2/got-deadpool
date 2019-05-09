@@ -145,6 +145,8 @@ function scoreBracket (bracket, game, characterData) {
         }
       }
     })
+  } else {
+    score = null
   }
   return score
 }
