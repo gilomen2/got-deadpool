@@ -1,7 +1,10 @@
 import sortBy from 'lodash/sortBy'
 
 export const rankPlayers = (poolPlayers) => {
-  let sorted = sortBy(poolPlayers, ['score']).reverse()
+  let noBracketPlayers = poolPlayers.filter(player => !player.score)
+  let bracketPlayers = poolPlayers.filter(player => player.score)
+
+  let sorted = sortBy(bracketPlayers, ['score']).reverse()
 
   let rank = 1
 
@@ -13,5 +16,5 @@ export const rankPlayers = (poolPlayers) => {
     sorted[i].rank = rank
   }
 
-  return sorted
+  return [...sorted, ...noBracketPlayers]
 }

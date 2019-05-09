@@ -37,7 +37,7 @@ export const PoolPlayers = ({ userBracket, user, poolPlayers, poolId, media }) =
         </TableHead>
         <TableBody>
           {poolPlayers.map((player) => {
-            return <PoolPlayer userBracket={userBracket} playerId={player.id} user={user} media={media} photoUrl={player.photoURL} displayName={player.displayName} key={`pool-player-${player.id}-${poolId}`} score={player.score} rank={player.rank} />
+            return <PoolPlayer poolPlayers={poolPlayers} userBracket={userBracket} playerId={player.id} user={user} media={media} photoUrl={player.photoURL} displayName={player.displayName} key={`pool-player-${player.id}-${poolId}`} score={player.score} rank={player.rank} />
           })}
         </TableBody>
       </Table>
@@ -45,7 +45,8 @@ export const PoolPlayers = ({ userBracket, user, poolPlayers, poolId, media }) =
   )
 }
 
-const PoolPlayer = ({ userBracket, playerId, user, photoUrl, displayName, score, rank, media }) => {
+const PoolPlayer = ({ poolPlayers, userBracket, playerId, user, photoUrl, displayName, score, rank, media }) => {
+  const playerHasBracket = poolPlayers.find(player => player.id === playerId).bracket
   return (
     <TableRow>
       <TableCell padding={media.mobile ? 'none' : 'default'} align='center'>{rank}</TableCell>
@@ -58,7 +59,7 @@ const PoolPlayer = ({ userBracket, playerId, user, photoUrl, displayName, score,
         </div>
       </TableCell>
       <TableCell padding={media.mobile ? 'none' : 'default'} align='center'>{score}</TableCell>
-      {userBracket && <TableCell align='center'>{playerId !== user.uid && <Link to={`/compare-bracket/${playerId}`}>Compare Brackets</Link>}</TableCell>}
+      {userBracket && <TableCell align='center'>{playerId !== user.uid && playerHasBracket && <Link to={`/compare-bracket/${playerId}`}>Compare Brackets</Link>}</TableCell>}
     </TableRow>
   )
 }
