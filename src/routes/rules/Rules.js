@@ -32,10 +32,8 @@ class Rules extends Component {
         }
         {gameLoaded && gameStarted &&
           <React.Fragment>
-            <h1>A big, huge whoops</h1>
-            <p>A vigilant user brought it to my attention that scores appeared not to match the scoring system below. It turns out my scoring function had a bug, which has now been fixed. All users have been rescored, so your score may have changed from the last time you viewed it. Sorry! This is why writing unit tests is important...and I didn't do that.</p>
-            <h2>Week 5 Scoring</h2>
-            <p>Scores available now!</p>
+            <h1>Well, it's over.</h1>
+            <p>Final scores are available now. That was....an ending, I guess. Apologies for the lateness in updating. I've been traveling and just now got to watch it.</p>
           </React.Fragment>
         }
         <h2>These are the Rules, don't @ me</h2>
