@@ -117,33 +117,34 @@ function scoreBracket (bracket, game, characterData) {
   let score = 0
   if (bracket) {
     Object.keys(bracket).forEach(function (characterName) {
+      let charScore
       let characterStatus = characterData[characterName]
 
       let characterPrediction = Number(bracket[characterName])
-      if (characterStatus && characterStatus.lastEpisodeAlive) {
-        const diff = Math.abs(characterStatus.lastEpisodeAlive - characterPrediction)
-        if (characterStatus.lastEpisodeAlive === 0) {
-          if (characterPrediction === 0) {
-            score += gameScoring.survivor.correct
-          } else {
-            score += gameScoring.episodeDeath.survives
-          }
-        } else if (characterPrediction === 0) {
-          score += gameScoring.survivor.incorrect
+      const diff = Math.abs(characterStatus.lastEpisodeAlive - characterPrediction)
+      if (characterStatus.lastEpisodeAlive === 0) {
+        if (characterPrediction === 0) {
+          charScore = gameScoring.survivor.correct
         } else {
-          if (diff > 3) {
-            score += gameScoring.episodeDeath.offByMore
-          } else if (diff === 3) {
-            score += gameScoring.episodeDeath.offBy3
-          } else if (diff === 2) {
-            score += gameScoring.episodeDeath.offBy2
-          } else if (diff === 1) {
-            score += gameScoring.episodeDeath.offBy1
-          } else if (diff === 0) {
-            score += gameScoring.episodeDeath.correct
-          }
+          charScore = gameScoring.episodeDeath.survives
+        }
+      } else if (characterStatus.lastEpisodeAlive !== 0 && characterPrediction === 0) {
+        charScore = gameScoring.survivor.incorrect
+      } else {
+        if (diff > 3) {
+          charScore = gameScoring.episodeDeath.offByMore
+        } else if (diff === 3) {
+          charScore = gameScoring.episodeDeath.offBy3
+        } else if (diff === 2) {
+          charScore = gameScoring.episodeDeath.offBy2
+        } else if (diff === 1) {
+          charScore = gameScoring.episodeDeath.offBy1
+        } else if (diff === 0) {
+          charScore = gameScoring.episodeDeath.correct
         }
       }
+      score += charScore
+      console.log(`${characterName}: ${charScore}`)
     })
   } else {
     score = null

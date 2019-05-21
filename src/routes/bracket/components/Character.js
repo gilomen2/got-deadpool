@@ -69,7 +69,7 @@ class Character extends Component {
           </Select>
         </FormControl>
         {
-          (lastEpisodeAlive && lastEpisodeAlive > 0 && showIcon)
+          (lastEpisodeAlive > 0 && showIcon)
             && <div className={'icon'}>
               <Skull aria-owns={skullOpen ? 'skull-popover' : undefined}
                      aria-haspopup="true"
@@ -100,7 +100,7 @@ class Character extends Component {
               </Popover>
             </div>
         }
-        {(showIcon && !lastEpisodeAlive) && <div className={'icon'}>
+        {(showIcon && lastEpisodeAlive === 0) && <div className={'icon'}>
                 <a href={wikiLink} target={'_blank'}>
                   <IconButton aria-owns={whoIsThisOpen ? 'whoIsThis-popover' : undefined}
                               aria-haspopup="true"
