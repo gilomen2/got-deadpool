@@ -30,14 +30,6 @@ class Rules extends Component {
             <p>Brackets are loosely organized by house affiliation at the end of season 7. I said LOOSELY.</p>
           </div>
         }
-        {gameLoaded && gameStarted &&
-          <React.Fragment>
-            <h1>Ooops, I did it again</h1>
-            <p>Again, scoring was wrong. I'm so sorry, ya'll. Apparently at some point I forgot that 0 is falsy in Javascript and made survivors' last episode alive number 0. Not good.</p>
-            <h2>Well, it's over.</h2>
-            <p>Final scores are available now. That was....an ending, I guess. Apologies for the lateness in updating. I've been traveling and just now got to watch it.</p>
-          </React.Fragment>
-        }
         <h2>These are the Rules, don't @ me</h2>
         <h3>Scoring</h3>
         <p>Points will be calculated for each member of your pool after each episode.</p>
