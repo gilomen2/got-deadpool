@@ -8,3 +8,8 @@ Thrones Deadpool uses Google's Firebase features:
 * **Firestore**: the app's datastor
 * **Auth**: the app's authentication and user store
 * **Functions**: Lambda-like serverless functions, used to calculate scores
+
+![Pool](readme-images/pool.png)
+
+
+![Pool](readme-images/bracket.png)
